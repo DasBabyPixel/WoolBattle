@@ -323,4 +323,41 @@ class DefaultUser implements User {
 	public ItemStack getSingleWoolItem() {
 		return new ItemStack(Material.WOOL, 1, getTeam().getType().getWoolColor());
 	}
+
+	@Override
+	public void setActivePerk1(Perk perk) {
+		this.activePerk1 = perk;
+	}
+
+	@Override
+	public void setActivePerk2(Perk perk) {
+		this.activePerk2 = perk;
+	}
+
+	@Override
+	public void setPassivePerk(Perk perk) {
+		this.passivePerk = perk;
+	}
+
+	@Override
+	public void setEnderPearl(Perk perk) {
+		this.enderPearl = perk;
+	}
+
+	@Override
+	public Perk getPerk(PerkNumber number) {
+		switch (number) {
+		case ACTIVE_1:
+			return getActivePerk1();
+		case ACTIVE_2:
+			return getActivePerk2();
+		case PASSIVE:
+			return getPassivePerk();
+		case ENDER_PEARL:
+			return getEnderPearl();
+		default:
+			break;
+		}
+		return null;
+	}
 }

@@ -17,5 +17,7 @@ public class CommandArgument {
 	public static final Argument PERK = new Argument("Perk", "Das Perk");
 	public static final Argument COOLDOWN = new Argument("Cooldown", "Der Cooldown");
 	public static final Argument COST = new Argument("Kosten", "Der Kosten");
+	public static final Argument PERK_SLOT = new Argument("PerkSlot", "Der PerkSlot");
+	public static final Argument PLAYER_OPTIONAL = new Argument("Spieler", "Der Spieler");
 
 }

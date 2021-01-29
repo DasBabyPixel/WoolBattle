@@ -6,6 +6,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.inventory.ItemStack;
 
 import eu.darkcube.minigame.woolbattle.perk.Perk;
+import eu.darkcube.minigame.woolbattle.perk.PerkNumber;
 import eu.darkcube.minigame.woolbattle.team.Team;
 import eu.darkcube.minigame.woolbattle.translation.Language;
 import eu.darkcube.minigame.woolbattle.util.InventoryId;
@@ -31,6 +32,8 @@ public interface User {
 
 	void loadPerks();
 	
+	Perk getPerk(PerkNumber number);
+	
 	Perk getActivePerk1();
 	
 	Perk getActivePerk2();
@@ -40,6 +43,14 @@ public interface User {
 	Perk getEnderPearl();
 
 	Perk getPerkByItemId(String itemId);
+	
+	void setActivePerk1(Perk perk);
+	
+	void setActivePerk2(Perk perk);
+	
+	void setPassivePerk(Perk perk);
+	
+	void setEnderPearl(Perk perk);
 	
 	void sendPacket(Packet<?> packet);
 

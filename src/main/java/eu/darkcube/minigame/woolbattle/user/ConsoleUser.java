@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import eu.darkcube.minigame.woolbattle.Main;
 import eu.darkcube.minigame.woolbattle.gadget.Gadget;
 import eu.darkcube.minigame.woolbattle.perk.Perk;
+import eu.darkcube.minigame.woolbattle.perk.PerkNumber;
 import eu.darkcube.minigame.woolbattle.perk.PlayerPerks;
 import eu.darkcube.minigame.woolbattle.team.Team;
 import eu.darkcube.minigame.woolbattle.translation.Language;
@@ -219,20 +220,41 @@ public class ConsoleUser implements User {
 
 	@Override
 	public Perk getPerkByItemId(String itemId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public double getKD() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public ItemStack getSingleWoolItem() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public void setActivePerk1(Perk perk) {
+
+	}
+
+	@Override
+	public void setActivePerk2(Perk perk) {
+
+	}
+
+	@Override
+	public void setPassivePerk(Perk perk) {
+
+	}
+
+	@Override
+	public void setEnderPearl(Perk perk) {
+
+	}
+
+	@Override
+	public Perk getPerk(PerkNumber number) {
+		return null;
+	}
 }

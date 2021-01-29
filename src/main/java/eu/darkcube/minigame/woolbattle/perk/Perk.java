@@ -24,13 +24,15 @@ public interface Perk {
 	Item getItem();
 
 	default void setItem() {
-		if (getSlot() == 100) {
-			getOwner().getBukkitEntity().getOpenInventory().setCursor(calculateItem());
-		} else {
-			getOwner().getBukkitEntity().getHandle().defaultContainer.getBukkitView().setItem(getSlot(),
-					calculateItem());
+		if (getOwner().getPerk(getPerkNumber()) == this) {
+			if (getSlot() == 100) {
+				getOwner().getBukkitEntity().getOpenInventory().setCursor(calculateItem());
+			} else {
+				getOwner().getBukkitEntity().getHandle().defaultContainer.getBukkitView().setItem(getSlot(),
+						calculateItem());
+			}
+			updateInventory();
 		}
-		updateInventory();
 	}
 
 	default void updateInventory() {

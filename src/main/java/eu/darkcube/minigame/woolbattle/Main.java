@@ -28,6 +28,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import eu.darkcube.minigame.woolbattle.command.CommandDisableStats;
 import eu.darkcube.minigame.woolbattle.command.CommandFix;
+import eu.darkcube.minigame.woolbattle.command.CommandIsStats;
 import eu.darkcube.minigame.woolbattle.command.CommandLanguage;
 import eu.darkcube.minigame.woolbattle.command.CommandSetLifes;
 import eu.darkcube.minigame.woolbattle.command.CommandSetMap;
@@ -75,7 +76,6 @@ import eu.darkcube.minigame.woolbattle.util.convertingrule.ConvertingRuleDyeColo
 import eu.darkcube.minigame.woolbattle.util.convertingrule.ConvertingRuleLanguage;
 import eu.darkcube.minigame.woolbattle.util.convertingrule.ConvertingRuleMap;
 import eu.darkcube.minigame.woolbattle.util.convertingrule.ConvertingRuleTeam;
-import eu.darkcube.minigame.woolbattle.util.scheduler.Scheduler;
 import eu.darkcube.minigame.woolbattle.util.scheduler.SchedulerTask;
 import eu.darkcube.minigame.woolbattle.util.scoreboard.Objective;
 import eu.darkcube.minigame.woolbattle.util.scoreboard.Scoreboard;
@@ -327,24 +327,24 @@ public class Main extends Plugin {
 		lobby.enable();
 
 		// Enable commands
-		CommandAPI.enable(this, new CommandWoolBattle());
-		CommandAPI.enable(this, new CommandLanguage());
-		CommandAPI.enable(this, new CommandTimer());
-		CommandAPI.enable(this, new CommandSetLifes());
+		CommandAPI.enable(this, new CommandDisableStats());
 		CommandAPI.enable(this, new CommandFix());
-		CommandAPI.enable(this, new CommandVoteLifes());
+		CommandAPI.enable(this, new CommandIsStats());
+		CommandAPI.enable(this, new CommandLanguage());
+		CommandAPI.enable(this, new CommandSetLifes());
 		CommandAPI.enable(this, new CommandSetMap());
 		CommandAPI.enable(this, new CommandSettings());
-		CommandAPI.enable(this, new CommandDisableStats());
+		CommandAPI.enable(this, new CommandTimer());
 		CommandAPI.enable(this, new CommandTroll());
+		CommandAPI.enable(this, new CommandVoteLifes());
+		CommandAPI.enable(this, new CommandWoolBattle());
 
-		new Scheduler() {
-
+		new BukkitRunnable() {
 			@Override
 			public void run() {
 				CloudNetLink.update();
 			}
-		}.runTaskTimer(10);
+		}.runTaskTimerAsynchronously(Main.getInstance(), 10, 10);
 		new BukkitRunnable() {
 
 			@Override
