@@ -10,6 +10,3 @@ public class Config {
 	public static final String MIN_PLAYER_COUNT = "minplayercount";
 
 }
-   
-
-
