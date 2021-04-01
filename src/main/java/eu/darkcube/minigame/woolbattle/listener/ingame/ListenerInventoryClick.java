@@ -45,20 +45,6 @@ public class ListenerInventoryClick extends Listener<InventoryClickEvent> {
 
 		Player p = (Player) e.getWhoClicked();
 		User user = Main.getInstance().getUserWrapper().getUser(p.getUniqueId());
-		if (e.getView().getType() == InventoryType.CRAFTING) {
-			if (slot == 0 || slot == 1 || slot == 2 || slot == 3 || slot == 4 || slot == -999 || slot == -1 || slot == 5
-					|| slot == 6 || slot == 7 || slot == 8) {
-				if (!user.isTrollMode()) {
-					e.setCancelled(true);
-				}
-				return;
-			}
-		} else if (!user.isTrollMode() && p.getGameMode() == GameMode.SURVIVAL) {
-			e.setCancelled(true);
-			return;
-		} else {
-			return;
-		}
 		if (user.getTeam().getType() == TeamType.SPECTATOR) {
 			e.setCancelled(true);
 			if (user.getOpenInventory() != null) {
@@ -78,6 +64,20 @@ public class ListenerInventoryClick extends Listener<InventoryClickEvent> {
 					break;
 				}
 			}
+			return;
+		}
+		if (e.getView().getType() == InventoryType.CRAFTING) {
+			if (slot == 0 || slot == 1 || slot == 2 || slot == 3 || slot == 4 || slot == -999 || slot == -1 || slot == 5
+					|| slot == 6 || slot == 7 || slot == 8) {
+				if (!user.isTrollMode()) {
+					e.setCancelled(true);
+				}
+				return;
+			}
+		} else if (!user.isTrollMode() && p.getGameMode() == GameMode.SURVIVAL) {
+			e.setCancelled(true);
+			return;
+		} else {
 			return;
 		}
 

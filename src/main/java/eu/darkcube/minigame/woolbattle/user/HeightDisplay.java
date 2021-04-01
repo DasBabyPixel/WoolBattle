@@ -17,6 +17,10 @@ public class HeightDisplay {
 		this.color = color;
 	}
 
+	public static HeightDisplay getDefault() {
+		return new HeightDisplay(true, -1, ChatColor.GOLD.getChar());
+	}
+
 	public int getMaxDistance() {
 		return maxDistance;
 	}

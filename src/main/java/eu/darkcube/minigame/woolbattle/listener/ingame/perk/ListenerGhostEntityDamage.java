@@ -23,6 +23,7 @@ import org.bukkit.util.Vector;
 
 import eu.darkcube.minigame.woolbattle.Main;
 import eu.darkcube.minigame.woolbattle.listener.Listener;
+import eu.darkcube.minigame.woolbattle.team.TeamType;
 import eu.darkcube.minigame.woolbattle.user.User;
 import eu.darkcube.minigame.woolbattle.util.ParticleEffect;
 
@@ -75,8 +76,13 @@ public class ListenerGhostEntityDamage extends Listener<EntityDamageByEntityEven
 
 				User attacker = e.getDamager() instanceof Player
 						? Main.getInstance().getUserWrapper().getUser(((Player) e.getDamager()).getUniqueId())
-						: Main.getInstance().getUserWrapper()
+						: Main.getInstance()
+								.getUserWrapper()
 								.getUser(((Entity) ((Projectile) e.getDamager()).getShooter()).getUniqueId());
+				if (attacker.getTeam().getType() == TeamType.SPECTATOR && !attacker.isTrollMode()) {
+					e.setCancelled(true);
+					return;
+				}
 
 				if (Main.getInstance().getIngame().listenerGhostInteract.ghosts.containsKey(user)) {
 					Player p = user.getBukkitEntity();
@@ -93,8 +99,9 @@ public class ListenerGhostEntityDamage extends Listener<EntityDamageByEntityEven
 							p.damage(0);
 							p.setNoDamageTicks(10);
 							if (e.getDamager() instanceof Projectile) {
-								attacker.getBukkitEntity().playSound(attacker.getBukkitEntity().getLocation(),
-										Sound.SUCCESSFUL_HIT, 1, 0);
+								attacker.getBukkitEntity()
+										.playSound(attacker.getBukkitEntity().getLocation(), Sound.SUCCESSFUL_HIT, 1,
+												0);
 							}
 						}
 					}
@@ -112,7 +119,8 @@ public class ListenerGhostEntityDamage extends Listener<EntityDamageByEntityEven
 
 			User attacker = e.getDamager() instanceof Player
 					? Main.getInstance().getUserWrapper().getUser(((Player) e.getDamager()).getUniqueId())
-					: Main.getInstance().getUserWrapper()
+					: Main.getInstance()
+							.getUserWrapper()
 							.getUser(((Entity) ((Projectile) e.getDamager()).getShooter()).getUniqueId());
 			if (zombie.hasMetadata("isGhost") && zombie.getMetadata("isGhost").size() >= 1
 					&& zombie.getMetadata("isGhost").get(0).asBoolean()) {
@@ -138,7 +146,9 @@ public class ListenerGhostEntityDamage extends Listener<EntityDamageByEntityEven
 //		Vector velo = setMag(loc.getDirection(), mag);
 //		entity.setVelocity(velo);
 		if (attacker instanceof Arrow) {
-			entity.setVelocity(attacker.getVelocity().setY(0).normalize()
+			entity.setVelocity(attacker.getVelocity()
+					.setY(0)
+					.normalize()
 					.multiply(.47 + new Random().nextDouble() / 70 + ((Arrow) attacker).getKnockbackStrength() / 1.42)
 					.setY(.400023));
 		} else {
@@ -161,7 +171,8 @@ public class ListenerGhostEntityDamage extends Listener<EntityDamageByEntityEven
 			double y = 0.400023;
 			double z = eloc.getZ() - ploc.getZ();
 			entity.setVelocity(new Vector(x, y, z).normalize()
-					.multiply(0.47 + new Random().nextDouble() / 70 + mult / 1.42).setY(y));
+					.multiply(0.47 + new Random().nextDouble() / 70 + mult / 1.42)
+					.setY(y));
 		}
 	}
 //

@@ -14,6 +14,7 @@ import eu.darkcube.minigame.woolbattle.user.UserSettings;
 import eu.darkcube.minigame.woolbattle.util.InventoryId;
 import eu.darkcube.minigame.woolbattle.util.Item;
 import eu.darkcube.minigame.woolbattle.util.ItemManager;
+import eu.darkcube.minigame.woolbattle.util.WoolSubtractDirection;
 
 public class ListenerInventoryClick extends Listener<InventoryClickEvent> {
 
@@ -37,6 +38,8 @@ public class ListenerInventoryClick extends Listener<InventoryClickEvent> {
 			e.setCancelled(true);
 			if (itemid.equals(Item.SETTINGS_HEIGHT_DISPLAY.getItemId())) {
 				UserSettings.openHeightDisplay(user);
+			} else if (itemid.equals(Item.SETTINGS_WOOL_DIRECTION.getItemId())) {
+				UserSettings.openWoolDirection(user);
 			}
 		} else if (user.getOpenInventory() == InventoryId.HEIGHT_DISPLAY) {
 			e.setCancelled(true);
@@ -45,7 +48,7 @@ public class ListenerInventoryClick extends Listener<InventoryClickEvent> {
 			} else if (itemid.equals(Item.HEIGHT_DISPLAY_ON.getItemId())) {
 				user.getData().getHeightDisplay().setEnabled(false);
 				UserSettings.setInventoryHeightDisplayToggled(user, e.getClickedInventory());
-			} else if(itemid.equals(Item.HEIGHT_DISPLAY_OFF.getItemId())) {
+			} else if (itemid.equals(Item.HEIGHT_DISPLAY_OFF.getItemId())) {
 				user.getData().getHeightDisplay().setEnabled(true);
 				UserSettings.setInventoryHeightDisplayToggled(user, e.getClickedInventory());
 			}
@@ -57,6 +60,14 @@ public class ListenerInventoryClick extends Listener<InventoryClickEvent> {
 				Main.getInstance().getIngame().schedulerHeightDisplay.display(p);
 			}
 			e.setCancelled(true);
+		} else if (user.getOpenInventory() == InventoryId.WOOL_DIRECTION) {
+			if (itemid.equals(Item.SETTINGS_WOOL_DIRECTION_LEFT_TO_RIGHT.getItemId())) {
+				user.getData().setWoolSubtractDirection(WoolSubtractDirection.LEFT_TO_RIGHT);
+			} else if (itemid.equals(Item.SETTINGS_WOOL_DIRECTION_RIGHT_TO_LEFT.getItemId())) {
+				user.getData().setWoolSubtractDirection(WoolSubtractDirection.RIGHT_TO_LEFT);
+			}
+			e.setCancelled(true);
+			UserSettings.openWoolDirection(user);
 		}
 		if (Main.getInstance().getLobby().isEnabled() && e.getHotbarButton() != -1) {
 			e.setCancelled(true);

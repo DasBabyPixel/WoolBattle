@@ -65,7 +65,7 @@ public class ListenerRonjasToiletLaunch extends Listener<ProjectileLaunchEvent> 
 				}.runTask();
 				return;
 			}
-			ItemManager.removeItems(p.getInventory(),
+			ItemManager.removeItems(user, p.getInventory(),
 					new ItemStack(Material.WOOL, 1, user.getTeam().getType().getWoolColor()),
 					PerkType.RONJAS_TOILET_SPLASH.getCost());
 

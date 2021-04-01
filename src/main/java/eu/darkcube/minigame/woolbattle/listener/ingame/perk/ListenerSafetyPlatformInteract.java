@@ -55,7 +55,7 @@ public class ListenerSafetyPlatformInteract extends Listener<PlayerInteractEvent
 		}
 		e.setCancelled(true);
 
-		ItemManager.removeItems(p.getInventory(), user.getSingleWoolItem(), PerkType.SAFETY_PLATFORM.getCost());
+		ItemManager.removeItems(user, p.getInventory(), user.getSingleWoolItem(), PerkType.SAFETY_PLATFORM.getCost());
 
 		setBlocks(user);
 

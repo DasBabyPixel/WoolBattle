@@ -96,7 +96,7 @@ public class ListenerLineBuilderInteract extends Listener<PlayerInteractEvent> {
 			@Override
 			public void run() {
 				User user = perk.getOwner();
-				ItemManager.removeItems(user.getBukkitEntity().getInventory(),
+				ItemManager.removeItems(user, user.getBukkitEntity().getInventory(),
 						new ItemStack(Material.WOOL, 1, user.getTeam().getType().getWoolColor()),
 						PerkType.LINE_BUILDER.getCost());
 

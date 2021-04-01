@@ -79,7 +79,7 @@ public class ListenerWoolBombLaunchable extends Listener<LaunchableInteractEvent
 				bomb = p.launchProjectile(Snowball.class);
 				e.setCancelled(true);
 			}
-			ItemManager.removeItems(p.getInventory(), user.getSingleWoolItem(), PerkType.WOOL_BOMB.getCost());
+			ItemManager.removeItems(user, p.getInventory(), user.getSingleWoolItem(), PerkType.WOOL_BOMB.getCost());
 			bomb.setMetadata("perk", new FixedMetadataValue(Main.getInstance(), perk.getPerkName().getName()));
 
 			new Scheduler() {

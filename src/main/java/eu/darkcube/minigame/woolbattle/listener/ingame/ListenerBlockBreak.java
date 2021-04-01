@@ -32,10 +32,11 @@ public class ListenerBlockBreak extends Listener<BlockBreakEvent> {
 				return;
 			}
 		} else {
-			if (e.getBlock().getType() != Material.WOOL) {
-				e.getBlock().setType(Material.AIR);
-				return;
-			}
+//			if (e.getBlock().getType() != Material.WOOL) {
+			Main.getInstance().getIngame().placedBlocks.remove(e.getBlock());
+			e.getBlock().setType(Material.AIR);
+			return;
+//			}
 		}
 		Material type = block.getType();
 		if (type == Material.WOOL) {

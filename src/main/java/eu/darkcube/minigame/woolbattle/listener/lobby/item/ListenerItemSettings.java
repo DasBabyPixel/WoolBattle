@@ -10,6 +10,7 @@ import eu.darkcube.minigame.woolbattle.listener.Listener;
 import eu.darkcube.minigame.woolbattle.user.UserSettings;
 import eu.darkcube.minigame.woolbattle.util.Item;
 import eu.darkcube.minigame.woolbattle.util.ItemManager;
+import eu.darkcube.minigame.woolbattle.util.scheduler.Scheduler;
 
 public class ListenerItemSettings extends Listener<EventInteract> {
 
@@ -20,7 +21,9 @@ public class ListenerItemSettings extends Listener<EventInteract> {
 		Player p = e.getPlayer();
 		if (e.getItem().hasItemMeta()) {
 			if (ItemManager.getItemId(item).equals(Item.SETTINGS.getItemId())) {
-				UserSettings.openSettings(Main.getInstance().getUserWrapper().getUser(p.getUniqueId()));
+				new Scheduler(
+						() -> UserSettings.openSettings(Main.getInstance().getUserWrapper().getUser(p.getUniqueId())))
+								.runTask();
 			}
 		}
 	}

@@ -95,7 +95,7 @@ public class ListenerMinigunInteract extends Listener<PlayerInteractEvent> {
 					s.setVelocity(p.getLocation().getDirection().multiply(2.5));
 					s.setMetadata("type", new FixedMetadataValue(Main.getInstance(), "minigun"));
 
-					ItemManager.removeItems(p.getInventory(),
+					ItemManager.removeItems(user, p.getInventory(),
 							new ItemStack(Material.WOOL, 1, user.getTeam().getType().getWoolColor()),
 							PerkType.MINIGUN.getCost());
 				}

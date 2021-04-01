@@ -29,19 +29,28 @@ public class CommandSetPerk extends Command {
 	@Override
 	public List<String> onTabComplete(String[] args) {
 		if (args.length == 1) {
-			return Arrays.toSortedStringList(Main.getInstance().getUserWrapper().getUsers().stream()
-					.filter(u -> u.getTeam().getType() != TeamType.SPECTATOR).map(User::getBukkitEntity)
-					.map(Player::getName).collect(Collectors.toSet()), args[0]);
+			return Arrays.toSortedStringList(Main.getInstance()
+					.getUserWrapper()
+					.getUsers()
+					.stream()
+					.filter(u -> u.getTeam().getType() != TeamType.SPECTATOR)
+					.map(User::getBukkitEntity)
+					.map(Player::getName)
+					.collect(Collectors.toSet()), args[0]);
 		} else if (args.length == 2) {
-			return Arrays.toSortedStringList(Arrays.asList(PerkNumber.values()).stream()
-					.filter(s -> s != PerkNumber.DISPLAY).map(Enum::toString).collect(Collectors.toSet()), args[1]);
+			return Arrays.toSortedStringList(Arrays.asList(PerkNumber.values())
+					.stream()
+					.filter(s -> s != PerkNumber.DISPLAY)
+					.map(Enum::toString)
+					.collect(Collectors.toSet()), args[1]);
 		} else if (args.length == 3) {
 			PerkNumber n = number(args[1]);
 			PerkType[] ps = getPerks(n);
-			return Arrays.toSortedStringList((ps != null ? Arrays.asList(ps).stream().map(PerkType::getPerkName)
-					.map(PerkName::getName) : Arrays.asList(new String[] {
-							"ENDERPEARL"
-			}).stream()).collect(Collectors.toList()), args[2]);
+			return Arrays.toSortedStringList(
+					(ps != null ? Arrays.asList(ps).stream().map(PerkType::getPerkName).map(PerkName::getName)
+							: Arrays.asList(new String[] {
+									"ENDERPEARL"
+							}).stream()).collect(Collectors.toList()), args[2]);
 		}
 		return super.onTabComplete(args);
 	}
@@ -98,10 +107,11 @@ public class CommandSetPerk extends Command {
 			target.setEnderPearl(rperk);
 			break;
 		default:
-			Main.getInstance().sendMessage("§cError: " + number);
+			Main.getInstance().sendMessage("§cError: " + number, sender);
 			return true;
 		}
-		Main.getInstance().sendMessage("§aPerk set: " + number + " | " + rperk.getPerkName().getName());
+		Main.getInstance().getIngame().setPlayerItems(target);
+		Main.getInstance().sendMessage("§aPerk set: " + number + " | " + rperk.getPerkName().getName(), sender);
 		return true;
 	}
 
@@ -109,11 +119,17 @@ public class CommandSetPerk extends Command {
 		switch (number) {
 		case ACTIVE_1:
 		case ACTIVE_2:
-			return Arrays.asList(PerkType.values()).stream().filter(p -> !p.isPassive())
-					.collect(Collectors.toList()).toArray(new PerkType[0]);
+			return Arrays.asList(PerkType.values())
+					.stream()
+					.filter(p -> !p.isPassive())
+					.collect(Collectors.toList())
+					.toArray(new PerkType[0]);
 		case PASSIVE:
-			return Arrays.asList(PerkType.values()).stream().filter(p -> p.isPassive())
-					.collect(Collectors.toList()).toArray(new PerkType[0]);
+			return Arrays.asList(PerkType.values())
+					.stream()
+					.filter(p -> p.isPassive())
+					.collect(Collectors.toList())
+					.toArray(new PerkType[0]);
 		case ENDER_PEARL:
 			return null;
 		default:

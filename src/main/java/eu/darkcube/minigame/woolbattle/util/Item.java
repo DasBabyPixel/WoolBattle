@@ -23,8 +23,11 @@ public enum Item {
 	GENERAL_VOTING_AGAINST(item(INK_SACK).setDurability(1).addLore()),
 
 	SETTINGS(item(REDSTONE_COMPARATOR).addLore()),
+	SETTINGS_WOOL_DIRECTION(item(WOOL).addLore()),
 	SETTINGS_HEIGHT_DISPLAY(item(CARPET).addLore()),
 	SETTINGS_HEIGHT_DISPLAY_COLOR(item(WOOL).setDurability(2).addLore()),
+	SETTINGS_WOOL_DIRECTION_LEFT_TO_RIGHT(item(WOOL).setDurability(5).addLore()),
+	SETTINGS_WOOL_DIRECTION_RIGHT_TO_LEFT(item(WOOL).setDurability(14).addLore()),
 
 	LOBBY_GADGET(item(ENDER_CHEST).glow().addLore()),
 

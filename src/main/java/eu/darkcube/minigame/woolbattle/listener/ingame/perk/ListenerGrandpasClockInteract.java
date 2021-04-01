@@ -60,17 +60,19 @@ public class ListenerGrandpasClockInteract extends Listener<PlayerInteractEvent>
 				deny(user, perk);
 				return;
 			}
-			ItemManager.removeItems(p.getInventory(), user.getSingleWoolItem(), PerkType.GRANDPAS_CLOCK.getCost());
+			ItemManager.removeItems(user, p.getInventory(), user.getSingleWoolItem(),
+					PerkType.GRANDPAS_CLOCK.getCost());
 			oldLoc.put(user, p.getLocation());
 			new Scheduler() {
 				int c = 0;
+
 				@Override
 				public void run() {
 					if (oldLoc.get(user) != null) {
 						teleport(user, perk);
 					}
 					c++;
-					if(c % 15 == 0) {
+					if (c % 15 == 0) {
 						p.playSound(p.getLocation(), Sound.CLICK, 1, 1);
 					}
 				}

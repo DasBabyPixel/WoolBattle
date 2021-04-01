@@ -35,9 +35,9 @@ public class ListenerWoolBombHit extends Listener<ProjectileHitEvent> {
 				return;
 			}
 			CraftTNTPrimed tnt = (CraftTNTPrimed) bomb.getWorld().spawn(bomb.getLocation(), TNTPrimed.class);
-			tnt.setMetadata("boost", new FixedMetadataValue(Main.getInstance(), 1.5));
+			tnt.setMetadata("boost", new FixedMetadataValue(Main.getInstance(), 3));
 			tnt.setFuseTicks(10);
-			tnt.setYield(3f);
+			tnt.setYield(4f);
 			try {
 				Field f = tnt.getHandle().getClass().getDeclaredField("source");
 				f.setAccessible(true);

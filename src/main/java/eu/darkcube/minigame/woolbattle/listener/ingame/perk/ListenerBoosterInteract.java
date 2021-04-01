@@ -60,7 +60,7 @@ public class ListenerBoosterInteract extends Listener<PlayerInteractEvent> {
 				}.runTask();
 				return;
 			}
-			ItemManager.removeItems(p.getInventory(),
+			ItemManager.removeItems(user, p.getInventory(),
 					new ItemStack(Material.WOOL, 1, user.getTeam().getType().getWoolColor()),
 					PerkType.BOOSTER.getCost());
 

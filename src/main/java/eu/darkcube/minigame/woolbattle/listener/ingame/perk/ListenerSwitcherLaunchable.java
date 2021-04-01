@@ -33,7 +33,7 @@ public class ListenerSwitcherLaunchable extends Listener<LaunchableInteractEvent
 		if (e.getEntityType() == EntityType.SNOWBALL) {
 			Player p = e.getPlayer();
 			User user = Main.getInstance().getUserWrapper().getUser(p.getUniqueId());
-			
+
 			ItemStack item = e.getItem() == null ? p.getItemInHand() : e.getItem();
 			if (item == null) {
 				return;
@@ -54,7 +54,7 @@ public class ListenerSwitcherLaunchable extends Listener<LaunchableInteractEvent
 				e.setCancelled(true);
 				return;
 			}
-			
+
 //			if (lastUser == user) {
 //				if (System.currentTimeMillis() - lastTime < 20) {
 //					lastUser = user;
@@ -74,7 +74,7 @@ public class ListenerSwitcherLaunchable extends Listener<LaunchableInteractEvent
 				e.setCancelled(true);
 			}
 
-			ItemManager.removeItems(p.getInventory(), user.getSingleWoolItem(), PerkType.SWITCHER.getCost());
+			ItemManager.removeItems(user, p.getInventory(), user.getSingleWoolItem(), PerkType.SWITCHER.getCost());
 			ball.setMetadata("perk", new FixedMetadataValue(Main.getInstance(), perk.getPerkName().getName()));
 
 			new Scheduler() {

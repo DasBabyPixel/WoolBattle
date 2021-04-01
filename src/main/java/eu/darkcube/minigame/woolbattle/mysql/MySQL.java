@@ -22,6 +22,7 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 import eu.darkcube.minigame.woolbattle.Main;
 import eu.darkcube.minigame.woolbattle.user.User;
 import eu.darkcube.minigame.woolbattle.user.UserData;
+import eu.darkcube.minigame.woolbattle.util.WoolSubtractDirection;
 import eu.darkcube.minigame.woolbattle.user.DefaultUserData;
 import eu.darkcube.minigame.woolbattle.user.HeightDisplay;
 
@@ -49,7 +50,10 @@ public class MySQL {
 		DefaultUserData data =
 				new Gson().fromJson(o == null ? new DefaultUserData().toString() : o.toString(), DefaultUserData.class);
 		if (data.getHeightDisplay() == null) {
-			data.setHeightDisplay(new HeightDisplay(true, -1, ChatColor.GOLD.getChar()));
+			data.setHeightDisplay(HeightDisplay.getDefault());
+		}
+		if(data.getWoolSubtractDirection() == null) {
+			data.setWoolSubtractDirection(WoolSubtractDirection.getDefault());
 		}
 		return data;
 	}

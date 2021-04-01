@@ -159,7 +159,7 @@ public class ListenerWallGeneratorInteract extends Listener<PlayerInteractEvent>
 			if (loc.getBlock().getType() == Material.AIR
 					&& !Main.getInstance().getIngame().breakedWool.containsKey(loc.getBlock())) {
 
-				ItemManager.removeItems(perk.getOwner().getBukkitEntity().getInventory(), user.getSingleWoolItem(),
+				ItemManager.removeItems(perk.getOwner(), perk.getOwner().getBukkitEntity().getInventory(), user.getSingleWoolItem(),
 						PerkType.WALL_GENERATOR.getCost());
 
 				loc.getBlock().setType(Material.WOOL);

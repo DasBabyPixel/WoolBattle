@@ -42,7 +42,7 @@ public class ListenerProjectileLaunch extends Listener<ProjectileLaunchEvent> {
 				}
 
 				Main.getInstance().getIngame().arrows.put(arrow, user);
-				ItemManager.removeItems(p.getInventory(),
+				ItemManager.removeItems(user, p.getInventory(),
 						new ItemStack(Material.WOOL, 1, user.getTeam().getType().getWoolColor()), 1);
 				arrow.setVelocity(arrow.getVelocity());
 				if (user.getPassivePerk().getPerkName().equals(PerkName.FAST_ARROW)) {
@@ -94,7 +94,7 @@ public class ListenerProjectileLaunch extends Listener<ProjectileLaunchEvent> {
 						wool.setAmount(0 - cost);
 						p.getInventory().addItem(wool);
 					} else {
-						ItemManager.removeItems(p.getInventory(), wool, cost);
+						ItemManager.removeItems(user, p.getInventory(), wool, cost);
 					}
 
 					user.getPassivePerk().setCooldown(user.getPassivePerk().getMaxCooldown() + arrowCount);
@@ -138,15 +138,15 @@ public class ListenerProjectileLaunch extends Listener<ProjectileLaunchEvent> {
 										wool.setAmount(0 - cost);
 										p.getInventory().addItem(wool);
 									} else {
-										ItemManager.removeItems(p.getInventory(), wool, cost);
+										ItemManager.removeItems(user, p.getInventory(), wool, cost);
 									}
 									CraftTNTPrimed tnt =
 											(CraftTNTPrimed) arrow.getWorld().spawn(arrow.getLocation(),
 													TNTPrimed.class);
 
-									tnt.setMetadata("boost", new FixedMetadataValue(Main.getInstance(), 1));
+									tnt.setMetadata("boost", new FixedMetadataValue(Main.getInstance(), 2));
 									tnt.setIsIncendiary(false);
-									tnt.setFuseTicks(20);
+									tnt.setFuseTicks(2);
 									try {
 										Field f = tnt.getHandle().getClass().getDeclaredField("source");
 										f.setAccessible(true);

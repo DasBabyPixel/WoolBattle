@@ -50,7 +50,7 @@ public class ListenerDoubleJump extends Listener<PlayerToggleFlightEvent> {
 			velo.setY(1.05 * heightMult);
 			p.setAllowFlight(false);
 			p.setVelocity(velo);
-			ItemManager.removeItems(p.getInventory(),
+			ItemManager.removeItems(user, p.getInventory(),
 					new ItemStack(Material.WOOL, 1, user.getTeam().getType().getWoolColor()), COST);
 			new Scheduler() {
 				@Override

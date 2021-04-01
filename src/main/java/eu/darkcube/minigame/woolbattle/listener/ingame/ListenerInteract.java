@@ -16,7 +16,6 @@ import eu.darkcube.minigame.woolbattle.util.InventoryId;
 import eu.darkcube.minigame.woolbattle.util.Item;
 import eu.darkcube.minigame.woolbattle.util.ItemBuilder;
 import eu.darkcube.minigame.woolbattle.util.ItemManager;
-import eu.darkcube.minigame.woolbattle.util.scheduler.Scheduler;
 
 public class ListenerInteract extends Listener<PlayerInteractEvent> {
 
@@ -34,17 +33,17 @@ public class ListenerInteract extends Listener<PlayerInteractEvent> {
 			p.openInventory(createInventory(user));
 			user.setOpenInventory(InventoryId.COMPASS_TELEPORT);
 		}
-		if(e.getItem() != null) {
-			Material t = e.getItem().getType();
-			if(t == Material.SNOW_BALL || t == Material.EGG || t == Material.ENDER_PEARL || t == Material.EYE_OF_ENDER) {
-				new Scheduler() {
-					@Override
-					public void run() {
-						p.updateInventory();
-					}
-				}.runTaskLater(2);
-			}
-		}
+//		if(e.getItem() != null) {
+//			Material t = e.getItem().getType();
+//			if(t == Material.SNOW_BALL || t == Material.EGG || t == Material.ENDER_PEARL || t == Material.EYE_OF_ENDER) {
+//				new Scheduler() {
+//					@Override
+//					public void run() {
+//						p.updateInventory();
+//					}
+//				}.runTaskLater(2);
+//			}
+//		}
 	}
 
 	@SuppressWarnings("deprecation")

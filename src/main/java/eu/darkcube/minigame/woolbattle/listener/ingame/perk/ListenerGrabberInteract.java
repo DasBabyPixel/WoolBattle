@@ -49,7 +49,7 @@ public class ListenerGrabberInteract extends Listener<PlayerInteractEvent> {
 					return;
 				}
 				if (main.getIngame().attack(user, tuser) || (user.getTeam() == tuser.getTeam() && user != tuser)) {
-					if(user.getTeam() == tuser.getTeam() && user != tuser) {
+					if (user.getTeam() == tuser.getTeam() && user != tuser) {
 						e.setCancelled(true);
 					}
 					main.getIngame().listenerGrabberInteract.grabbed.put(user, tuser);
@@ -114,7 +114,7 @@ public class ListenerGrabberInteract extends Listener<PlayerInteractEvent> {
 				}.runTask();
 				return;
 			}
-			ItemManager.removeItems(p.getInventory(),
+			ItemManager.removeItems(user, p.getInventory(),
 					new ItemStack(Material.WOOL, 1, user.getTeam().getType().getWoolColor()),
 					PerkType.GRABBER.getCost());
 

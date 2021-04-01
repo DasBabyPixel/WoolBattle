@@ -84,7 +84,7 @@ public class ListenerEnderpearlLaunchable extends Listener<LaunchableInteractEve
 				e.setCancelled(true);
 				return;
 			}
-			ItemManager.removeItems(p.getInventory(), user.getSingleWoolItem(), PerkEnderPearl.COST);
+			ItemManager.removeItems(user, p.getInventory(), user.getSingleWoolItem(), PerkEnderPearl.COST);
 
 			if (e.getItem() != null) {
 				p.launchProjectile(EnderPearl.class);

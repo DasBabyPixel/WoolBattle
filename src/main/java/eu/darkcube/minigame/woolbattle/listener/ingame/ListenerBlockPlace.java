@@ -1,6 +1,5 @@
 package eu.darkcube.minigame.woolbattle.listener.ingame;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,9 +23,7 @@ public class ListenerBlockPlace extends Listener<BlockPlaceEvent> {
 				return;
 			}
 		} else {
-			if (e.getItemInHand() != null && e.getItemInHand().getType() != Material.WOOL) {
-				return;
-			}
+			return;
 		}
 		if (user.getPassivePerk().calculateItem().equals(e.getItemInHand())) {
 			e.setCancelled(true);

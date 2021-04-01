@@ -20,6 +20,7 @@ import eu.darkcube.minigame.woolbattle.team.Team;
 import eu.darkcube.minigame.woolbattle.translation.Language;
 import eu.darkcube.minigame.woolbattle.util.Arrays;
 import eu.darkcube.minigame.woolbattle.util.InventoryId;
+import eu.darkcube.minigame.woolbattle.util.WoolSubtractDirection;
 import net.minecraft.server.v1_8_R3.Packet;
 
 class DefaultUser implements User {
@@ -158,6 +159,16 @@ class DefaultUser implements User {
 		@Override
 		public void setHeightDisplay(HeightDisplay display) {
 			data.setHeightDisplay(display);
+		}
+
+		@Override
+		public WoolSubtractDirection getWoolSubtractDirection() {
+			return data.getWoolSubtractDirection();
+		}
+
+		@Override
+		public void setWoolSubtractDirection(WoolSubtractDirection dir) {
+			data.setWoolSubtractDirection(dir);
 		}
 
 	}

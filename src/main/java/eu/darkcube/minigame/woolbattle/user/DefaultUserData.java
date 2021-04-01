@@ -6,14 +6,16 @@ import eu.darkcube.minigame.woolbattle.gadget.Gadget;
 import eu.darkcube.minigame.woolbattle.perk.PlayerPerks;
 import eu.darkcube.minigame.woolbattle.perk.DefaultPlayerPerks;
 import eu.darkcube.minigame.woolbattle.translation.Language;
+import eu.darkcube.minigame.woolbattle.util.WoolSubtractDirection;
 
 public class DefaultUserData implements UserData {
 
 	private Language language = Language.ENGLISH;
 	private Gadget gadget = Gadget.HOOK_ARROW;
+	private WoolSubtractDirection woolSubtractDirection = WoolSubtractDirection.getDefault();
 	private DefaultPlayerPerks perks = new DefaultPlayerPerks();
 	private boolean particles = false;
-	private HeightDisplay display;
+	private HeightDisplay display = HeightDisplay.getDefault();
 	
 	@Override
 	public Language getLanguage() {
@@ -63,5 +65,15 @@ public class DefaultUserData implements UserData {
 	@Override
 	public void setHeightDisplay(HeightDisplay display) {
 		this.display = display;
+	}
+
+	@Override
+	public WoolSubtractDirection getWoolSubtractDirection() {
+		return woolSubtractDirection;
+	}
+
+	@Override
+	public void setWoolSubtractDirection(WoolSubtractDirection dir) {
+		this.woolSubtractDirection = dir;
 	}
 }

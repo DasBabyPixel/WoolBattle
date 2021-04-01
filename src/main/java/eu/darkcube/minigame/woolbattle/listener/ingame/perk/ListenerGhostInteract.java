@@ -71,7 +71,7 @@ public class ListenerGhostInteract extends Listener<PlayerInteractEvent> {
 		}
 		e.setCancelled(true);
 
-		ItemManager.removeItems(p.getInventory(), user.getSingleWoolItem(), PerkType.GHOST.getCost());
+		ItemManager.removeItems(user, p.getInventory(), user.getSingleWoolItem(), PerkType.GHOST.getCost());
 
 		p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10000000, 200, false, false));
 		Zombie zombie = new GhostZombie(p.getWorld(), user).getBukkitEntity();

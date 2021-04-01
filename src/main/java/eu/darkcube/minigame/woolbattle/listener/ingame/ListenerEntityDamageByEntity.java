@@ -55,8 +55,8 @@ public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityE
 					e.setCancelled(true);
 					return;
 				}
-				if (user.hasSpawnProtection() && !user.isTrollMode()) {
-					user.setSpawnProtectionTicks(0);
+				if (target.hasSpawnProtection() && !user.isTrollMode()) {
+					target.setSpawnProtectionTicks(0);
 				}
 				ingame.attack(user, target);
 			} else if (e.getDamager() instanceof EnderPearl) {
@@ -133,6 +133,8 @@ public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityE
 						target.getBukkitEntity().damage(0);
 						user.getBukkitEntity().playSound(user.getBukkitEntity().getLocation(), Sound.SUCCESSFUL_HIT, 1,
 								0);
+						target.getBukkitEntity().getWorld().playSound(target.getBukkitEntity().getLocation(), Sound.ARROW_HIT, 1, 1);
+						
 						new Scheduler() {
 							Location loc = target.getBukkitEntity().getLocation();
 
@@ -200,6 +202,8 @@ public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityE
 
 							}
 						}.runTaskLater(3);
+//						target.getBukkitEntity().playSound(target.getBukkitEntity().getLocation(), Sound.ARROW_HIT, 1,
+//								1);
 						target.getBukkitEntity()
 								.setVelocity(arrow.getVelocity().setY(0).normalize().multiply(
 										.47 + new Random().nextDouble() / 70 + arrow.getKnockbackStrength() / 1.42)

@@ -39,40 +39,42 @@ public class ItemManager {
 		return i - 1;
 	}
 
-	public static void removeItems(Inventory invToRemoveFrom, ItemStack itemToRemove, int count) {
-		Map<Integer, ItemStack> leftOver = new HashMap<>();
-		itemToRemove = new ItemStack(itemToRemove);
-		itemToRemove.setAmount(1);
-		int toDelete = count;
-		int did = 0;
-		for (int i = count - 1; i >= 0; i--) {
-			do {
-				int last;
-				if ((last = last(invToRemoveFrom, itemToRemove, false)) == -1) {
-					itemToRemove.setAmount(toDelete);
-					leftOver.put(i, itemToRemove);
+	public static void removeItems(User user, Inventory invToRemoveFrom, ItemStack itemToRemove, int count) {
+		if (user.getData().getWoolSubtractDirection() == WoolSubtractDirection.RIGHT_TO_LEFT) {
+			Map<Integer, ItemStack> leftOver = new HashMap<>();
+			itemToRemove = new ItemStack(itemToRemove);
+			itemToRemove.setAmount(1);
+			int toDelete = count;
+			int did = 0;
+			for (int i = count - 1; i >= 0; i--) {
+				do {
+					int last;
+					if ((last = last(invToRemoveFrom, itemToRemove, false)) == -1) {
+						itemToRemove.setAmount(toDelete);
+						leftOver.put(i, itemToRemove);
+						break;
+					}
+					ItemStack item = invToRemoveFrom.getItem(last);
+					int amount = item.getAmount();
+					if (amount <= toDelete) {
+						toDelete -= amount;
+						invToRemoveFrom.clear(last);
+						continue;
+					}
+					item.setAmount(amount - toDelete);
+					invToRemoveFrom.setItem(last, item);
+					toDelete = 0;
+				} while (toDelete > 0);
+				did++;
+				if (did > 50) {
 					break;
 				}
-				ItemStack item = invToRemoveFrom.getItem(last);
-				int amount = item.getAmount();
-				if (amount <= toDelete) {
-					toDelete -= amount;
-					invToRemoveFrom.clear(last);
-					continue;
-				}
-				item.setAmount(amount - toDelete);
-				invToRemoveFrom.setItem(last, item);
-				toDelete = 0;
-			} while (toDelete > 0);
-			did++;
-			if (did > 50) {
-				break;
+			}
+		} else {
+			for (int i = 0; i < count; i++) {
+				invToRemoveFrom.removeItem(itemToRemove);
 			}
 		}
-
-//		for (int i = 0; i < count; i++) {
-//			invToRemoveFrom.removeItem(itemToRemove);
-//		}
 	}
 
 	public static int last(Inventory inv, ItemStack item, boolean withAmount) {

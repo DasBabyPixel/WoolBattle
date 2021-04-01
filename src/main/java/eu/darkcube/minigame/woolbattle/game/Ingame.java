@@ -65,7 +65,8 @@ public class Ingame implements Enableable {
 
 	public static int MAX_BLOCK_ARROW_HITS = Main.getInstance().getConfig("config").getInt("maxblockarrowhits");
 	public static int SPAWNPROTECTION_TICKS = Main.getInstance().getConfig("config").getInt("spawnprotectionticks");
-	public static int SPAWNPROTECTION_TICKS_GLOBAL = Main.getInstance().getConfig("config")
+	public static int SPAWNPROTECTION_TICKS_GLOBAL = Main.getInstance()
+			.getConfig("config")
 			.getInt("spawnprotectionticksglobal");
 
 	public Set<Block> placedBlocks = new HashSet<>();
@@ -199,7 +200,8 @@ public class Ingame implements Enableable {
 							arrows.remove(arrow);
 							break;
 						}
-						User user = Main.getInstance().getUserWrapper()
+						User user = Main.getInstance()
+								.getUserWrapper()
 								.getUser(((Player) arrow.getShooter()).getUniqueId());
 						ParticleEffect.BLOCK_CRACK.display(
 								new ParticleEffect.BlockData(Material.WOOL, user.getTeam().getType().getWoolColor()), 0,
@@ -334,7 +336,6 @@ public class Ingame implements Enableable {
 				b.setType(Material.AIR);
 				resetBlockDamage(b);
 			}
-		listenerEnderpearlLaunchable.disable();
 
 		Main.registerListeners(listenerBlockBreak, listenerBlockPlace, listenerItemDrop, listenerItemPickup,
 				listenerBlockCanBuild, listenerPlayerJoin, listenerPlayerQuit, listenerPlayerLogin,
@@ -350,7 +351,6 @@ public class Ingame implements Enableable {
 				listenerGhostEntityDamageByEntity, listenerMinigunInteract, listenerDeathMove, listenerGrabberInteract,
 				listenerBoosterInteract);
 //		Main.registerListeners(listenerEnderpearlLaunchable);
-		listenerEnderpearlLaunchable.enable();
 
 		Main.getInstance().getUserWrapper().getUsers().forEach(u -> {
 			loadScoreboardObjective(u);
@@ -369,6 +369,16 @@ public class Ingame implements Enableable {
 		schedulerGlobalSpawnProtection.runTaskTimer(1);
 		schedulerTick.runTaskTimer(1);
 		schedulerHeightDisplay.start();
+
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			for (Player t : Bukkit.getOnlinePlayers()) {
+				if (p != t) {
+					if (!p.canSee(t)) {
+						p.showPlayer(t);
+					}
+				}
+			}
+		}
 
 	}
 
@@ -427,8 +437,9 @@ public class Ingame implements Enableable {
 					new Scheduler() {
 						@Override
 						public void run() {
-							Main.getInstance().sendMessage(Message.KILLSTREAK, killer.getTeamPlayerName(),
-									Integer.toString(killstreak));
+							Main.getInstance()
+									.sendMessage(Message.KILLSTREAK, killer.getTeamPlayerName(),
+											Integer.toString(killstreak));
 						}
 					}.runTask();
 					killer.getTeam().setLifes(killer.getTeam().getLifes() + 1);
@@ -445,6 +456,10 @@ public class Ingame implements Enableable {
 
 		if (!countAsDeath && !leaving) {
 			user.getBukkitEntity().teleport(user.getTeam().getSpawn());
+			if (killer != null) {
+				user.setLastHit(null);
+				user.setSpawnProtectionTicks(SPAWNPROTECTION_TICKS);
+			}
 			return;
 		}
 //		Map<Message, Function<User, String[]>> msgs = new HashMap<>();
@@ -452,8 +467,9 @@ public class Ingame implements Enableable {
 			if (user.getTicksAfterLastHit() < 201) {
 //				msgs.put(Message.PLAYER_WAS_KILLED_BY_PLAYER,
 //						u -> new String[] { user.getTeamPlayerName(), killer.getTeamPlayerName() });
-				Main.getInstance().sendMessage(Message.PLAYER_WAS_KILLED_BY_PLAYER, user.getTeamPlayerName(),
-						killer.getTeamPlayerName());
+				Main.getInstance()
+						.sendMessage(Message.PLAYER_WAS_KILLED_BY_PLAYER, user.getTeamPlayerName(),
+								killer.getTeamPlayerName());
 			} else if (user.getTicksAfterLastHit() <= 200) {
 //				msgs.put(Message.PLAYER_DIED, u -> new String[] { user.getTeamPlayerName() });
 				Main.getInstance().sendMessage(Message.PLAYER_DIED, user.getTeamPlayerName());
@@ -483,8 +499,12 @@ public class Ingame implements Enableable {
 			Main.getInstance().sendMessage(Message.TEAM_WAS_ELIMINATED, u -> new String[] {
 					userTeam.getName(u)
 			});
-			List<Team> teams = Main.getInstance().getTeamManager().getTeams().stream()
-					.filter(t -> t.getUsers().size() >= 1).collect(Collectors.toList());
+			List<Team> teams = Main.getInstance()
+					.getTeamManager()
+					.getTeams()
+					.stream()
+					.filter(t -> t.getUsers().size() >= 1)
+					.collect(Collectors.toList());
 			if (teams.size() == 1) {
 				if (leaving) {
 					user.getBukkitEntity().kickPlayer("Disconnected");
@@ -508,6 +528,7 @@ public class Ingame implements Enableable {
 		}
 		user.getBukkitEntity().teleport(user.getTeam().getSpawn());
 		user.setSpawnProtectionTicks(SPAWNPROTECTION_TICKS);
+		user.getLastHit();
 	}
 
 	public void loadScoreboardObjective(User user) {
@@ -643,8 +664,9 @@ public class Ingame implements Enableable {
 //		v.setItem(user.getData().getPerks().getSlotPassivePerk(), user.getData().getPerks().getPassivePerk().toType()
 //				.newPerkTypePerk(user, PerkNumber.PASSIVE).getItem().getItem(user));
 		for (int i = 0; i < woolcount; i++) {
-			p.getInventory().addItem(
-					new ItemBuilder(Material.WOOL).setDurability(user.getTeam().getType().getWoolColor()).build());
+			p.getInventory()
+					.addItem(new ItemBuilder(Material.WOOL).setDurability(user.getTeam().getType().getWoolColor())
+							.build());
 		}
 		p.getHandle().updateInventory(p.getHandle().activeContainer);
 		p.getHandle().collidesWithEntities = true;
@@ -707,16 +729,20 @@ public class Ingame implements Enableable {
 	public void reloadTab(User user) {
 		Header header = new Header(Main.getInstance().getConfig("config").getString(Config.TAB_HEADER));
 		Footer footer = new Footer(Main.getInstance().getConfig("config").getString(Config.TAB_FOOTER));
-		header.setMessage(header.getMessage().replace("%map%",
-				Main.getInstance().getMap() == null ? "Unknown Map" : Main.getInstance().getMap().getName()));
-		footer.setMessage(footer.getMessage().replace("%map%",
-				Main.getInstance().getMap() == null ? "Unknown Map" : Main.getInstance().getMap().getName()));
+		header.setMessage(header.getMessage()
+				.replace("%map%",
+						Main.getInstance().getMap() == null ? "Unknown Map" : Main.getInstance().getMap().getName()));
+		footer.setMessage(footer.getMessage()
+				.replace("%map%",
+						Main.getInstance().getMap() == null ? "Unknown Map" : Main.getInstance().getMap().getName()));
 		header.setMessage(header.getMessage().replace("%name%", Main.getInstance().name));
 		footer.setMessage(footer.getMessage().replace("%name%", Main.getInstance().name));
-		header.setMessage(header.getMessage().replace("%prefix%", "&8" + Characters.SHIFT_SHIFT_RIGHT + " &6"
-				+ Main.getInstance().tabprefix + " &8" + Characters.SHIFT_SHIFT_LEFT));
-		footer.setMessage(footer.getMessage().replace("%prefix%", "&8" + Characters.SHIFT_SHIFT_RIGHT + " &6"
-				+ Main.getInstance().tabprefix + " &8" + Characters.SHIFT_SHIFT_LEFT));
+		header.setMessage(header.getMessage()
+				.replace("%prefix%", "&8" + Characters.SHIFT_SHIFT_RIGHT + " &6" + Main.getInstance().tabprefix + " &8"
+						+ Characters.SHIFT_SHIFT_LEFT));
+		footer.setMessage(footer.getMessage()
+				.replace("%prefix%", "&8" + Characters.SHIFT_SHIFT_RIGHT + " &6" + Main.getInstance().tabprefix + " &8"
+						+ Characters.SHIFT_SHIFT_LEFT));
 		header.setMessage(header.getMessage().replace("%server%", Bukkit.getServerName()));
 		footer.setMessage(footer.getMessage().replace("%server%", Bukkit.getServerName()));
 		header.setMessage(ChatColor.translateAlternateColorCodes('&', header.getMessage()).replace("\\n", "\n"));

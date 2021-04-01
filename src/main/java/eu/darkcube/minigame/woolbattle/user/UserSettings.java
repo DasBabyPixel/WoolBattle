@@ -20,6 +20,7 @@ import eu.darkcube.minigame.woolbattle.util.InventoryId;
 import eu.darkcube.minigame.woolbattle.util.Item;
 import eu.darkcube.minigame.woolbattle.util.ItemBuilder;
 import eu.darkcube.minigame.woolbattle.util.ItemManager;
+import eu.darkcube.minigame.woolbattle.util.WoolSubtractDirection;
 
 public class UserSettings {
 
@@ -28,14 +29,14 @@ public class UserSettings {
 	private static final int[] slots = new int[] {
 			10, 11, 12, 13, 14, 15, 16,
 			19, 20, 21, 22, 23, 24, 25,
-			28, 29,
+			28, 29, 30, 31, 32, 33, 34
 	};
 
-	@SuppressWarnings("deprecation")
 	public static Inventory openSettings(User user) {
 		Inventory inv = openInventory(user, InventoryId.SETTINGS, Message.SETTINGS_TITLE, Item.SETTINGS);
-		inv.setItem(inv.getSize() / 2, Item.SETTINGS_HEIGHT_DISPLAY.getItem(user));
-		user.getBukkitEntity().updateInventory();
+		inv.setItem(21, Item.SETTINGS_WOOL_DIRECTION.getItem(user));
+		inv.setItem(23, Item.SETTINGS_HEIGHT_DISPLAY.getItem(user));
+//		user.getBukkitEntity().updateInventory();
 		return inv;
 	}
 
@@ -44,6 +45,22 @@ public class UserSettings {
 				Item.SETTINGS_HEIGHT_DISPLAY);
 		inv.setItem(inv.getSize() / 2 - 1, Item.SETTINGS_HEIGHT_DISPLAY_COLOR.getItem(user));
 		setInventoryHeightDisplayToggled(user, inv);
+		return inv;
+	}
+
+	public static Inventory openWoolDirection(User user) {
+		Inventory inv = openInventory(user, InventoryId.WOOL_DIRECTION, Message.WOOL_DIRECTION_SETTINGS_TITLE,
+				Item.SETTINGS_WOOL_DIRECTION);
+		ItemBuilder ltr = new ItemBuilder(Item.SETTINGS_WOOL_DIRECTION_LEFT_TO_RIGHT.getItem(user));
+		ItemBuilder rtl = new ItemBuilder(Item.SETTINGS_WOOL_DIRECTION_RIGHT_TO_LEFT.getItem(user));
+		WoolSubtractDirection dir = user.getData().getWoolSubtractDirection();
+		if(dir == WoolSubtractDirection.LEFT_TO_RIGHT) {
+			ltr.glow();
+		} else if(dir == WoolSubtractDirection.RIGHT_TO_LEFT) {
+			rtl.glow();
+		}
+		inv.setItem(21, ltr.build());
+		inv.setItem(23, rtl.build());
 		return inv;
 	}
 
@@ -115,10 +132,13 @@ public class UserSettings {
 			if (i == 4) {
 				inv.setItem(i, settingsItem.getItem(user));
 			} else if (i <= 8 || i >= inv.getSize() - 9 || (i + 1) % 9 == 1 || (i + 1) % 9 == 0) {
-				inv.setItem(i, gp);
+				ItemStack s = gp.clone();
+				ItemBuilder b = new ItemBuilder(s);
+				b.getUnsafe().setInt("id", i);
+				s = b.build();
+				inv.setItem(i, s);
 			}
 		}
-
 		user.getBukkitEntity().openInventory(inv);
 		user.setOpenInventory(id);
 		return inv;

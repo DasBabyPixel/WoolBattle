@@ -377,7 +377,7 @@ public class Main extends Plugin {
 	}
 
 	public Map getMap() {
-		return map;
+		return baseMap == null ? map : baseMap;
 	}
 
 	public int getMaxPlayers() {
@@ -414,7 +414,7 @@ public class Main extends Plugin {
 	public void setMap(User user) {
 		Scoreboard sb = new Scoreboard(user);
 		eu.darkcube.minigame.woolbattle.util.scoreboard.Team team = sb.getTeam(ObjectiveTeam.MAP.getKey());
-		String suffix = baseMap == null ? map == null ? "§cNo Maps" : map.getName() : baseMap.getName();
+		String suffix = baseMap == null ? (map == null ? "§cNo Maps" : map.getName()) : baseMap.getName();
 		team.setSuffix(suffix);
 	}
 

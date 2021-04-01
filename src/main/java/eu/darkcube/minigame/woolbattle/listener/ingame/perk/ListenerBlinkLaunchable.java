@@ -67,7 +67,7 @@ public class ListenerBlinkLaunchable extends Listener<LaunchableInteractEvent> {
 				return;
 			}
 
-			ItemManager.removeItems(p.getInventory(), user.getSingleWoolItem(), PerkType.BLINK.getCost());
+			ItemManager.removeItems(user, p.getInventory(), user.getSingleWoolItem(), PerkType.BLINK.getCost());
 
 			new Scheduler() {
 				int cd = perk.getMaxCooldown();
