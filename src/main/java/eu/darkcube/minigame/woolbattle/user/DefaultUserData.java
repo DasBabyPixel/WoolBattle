@@ -1,22 +1,22 @@
 package eu.darkcube.minigame.woolbattle.user;
 
-import com.google.gson.Gson;
-
 import eu.darkcube.minigame.woolbattle.gadget.Gadget;
-import eu.darkcube.minigame.woolbattle.perk.PlayerPerks;
 import eu.darkcube.minigame.woolbattle.perk.DefaultPlayerPerks;
-import eu.darkcube.minigame.woolbattle.translation.Language;
+import eu.darkcube.minigame.woolbattle.perk.PlayerPerks;
+import eu.darkcube.minigame.woolbattle.util.GsonSerializer.DontSerialize;
 import eu.darkcube.minigame.woolbattle.util.WoolSubtractDirection;
+import eu.darkcube.system.language.core.Language;
 
 public class DefaultUserData implements UserData {
 
-	private Language language = Language.ENGLISH;
+	@DontSerialize
+	private Language language = Language.DEFAULT;
 	private Gadget gadget = Gadget.HOOK_ARROW;
 	private WoolSubtractDirection woolSubtractDirection = WoolSubtractDirection.getDefault();
 	private DefaultPlayerPerks perks = new DefaultPlayerPerks();
 	private boolean particles = false;
 	private HeightDisplay display = HeightDisplay.getDefault();
-	
+
 	@Override
 	public Language getLanguage() {
 		return language;
@@ -41,10 +41,10 @@ public class DefaultUserData implements UserData {
 	public void setLanguage(Language language) {
 		this.language = language;
 	}
-	
+
 	@Override
 	public String toString() {
-		return new Gson().toJson(this);
+		return serialize();
 	}
 
 	@Override

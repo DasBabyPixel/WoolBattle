@@ -5,23 +5,12 @@ import java.util.HashMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import eu.darkcube.minigame.woolbattle.Main;
 import eu.darkcube.minigame.woolbattle.util.Locations;
 import eu.darkcube.minigame.woolbattle.util.MaterialAndId;
-import eu.darkcube.minigame.woolbattle.util.gson.TypeAdapterLocation;
-import eu.darkcube.minigame.woolbattle.util.gson.TypeAdapterMap;
+import eu.darkcube.minigame.woolbattle.util.Serializable;
 
-public class DefaultMap implements Map {
-
-	static final Gson GSON;
-
-	static {
-		GSON = new GsonBuilder().registerTypeAdapter(Location.class, TypeAdapterLocation.INSTANCE)
-				.registerTypeAdapter(Map.class, TypeAdapterMap.INSTANCE).create();
-	}
+public class DefaultMap implements Map, Serializable {
 
 	private String name;
 	private int deathHeight;
@@ -109,6 +98,6 @@ public class DefaultMap implements Map {
 
 	@Override
 	public String serialize() {
-		return GSON.toJson(this);
+		return Serializable.super.serialize();
 	}
 }

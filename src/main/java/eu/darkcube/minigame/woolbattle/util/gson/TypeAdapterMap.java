@@ -17,23 +17,24 @@ import com.google.gson.JsonSerializer;
 import eu.darkcube.minigame.woolbattle.map.DefaultMap;
 import eu.darkcube.minigame.woolbattle.map.Map;
 
-public class TypeAdapterMap implements JsonSerializer<Map>, JsonDeserializer<Map> {
+public class TypeAdapterMap
+				implements JsonSerializer<Map>, JsonDeserializer<Map> {
 
 	public static final TypeAdapterMap INSTANCE = new TypeAdapterMap();
-
-	private static final Gson GSON = new GsonBuilder().registerTypeAdapter(Location.class, TypeAdapterLocation.INSTANCE)
-			.create();
+	private static final Gson GSON = new GsonBuilder().registerTypeAdapter(Location.class, TypeAdapterLocation.INSTANCE).create();
 
 	private TypeAdapterMap() {
 	}
 
 	@Override
-	public Map deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {
+	public Map deserialize(JsonElement var1, Type var2,
+					JsonDeserializationContext var3) throws JsonParseException {
 		return GSON.fromJson(var1, DefaultMap.class);
 	}
 
 	@Override
-	public JsonElement serialize(Map var1, Type var2, JsonSerializationContext var3) {
+	public JsonElement serialize(Map var1, Type var2,
+					JsonSerializationContext var3) {
 		return new JsonPrimitive(GSON.toJson(var1));
 	}
 }

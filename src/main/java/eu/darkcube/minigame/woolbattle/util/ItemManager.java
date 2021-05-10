@@ -39,7 +39,8 @@ public class ItemManager {
 		return i - 1;
 	}
 
-	public static void removeItems(User user, Inventory invToRemoveFrom, ItemStack itemToRemove, int count) {
+	public static void removeItems(User user, Inventory invToRemoveFrom,
+					ItemStack itemToRemove, int count) {
 		if (user.getData().getWoolSubtractDirection() == WoolSubtractDirection.RIGHT_TO_LEFT) {
 			Map<Integer, ItemStack> leftOver = new HashMap<>();
 			itemToRemove = new ItemStack(itemToRemove);
@@ -83,7 +84,8 @@ public class ItemManager {
 		}
 		ItemStack[] inve = inv.getContents();
 		for (int i = inve.length - 1; i >= 0; i--) {
-			if (inve[i] != null && (withAmount ? item.equals(inve[i]) : item.isSimilar(inve[i]))) {
+			if (inve[i] != null && (withAmount ? item.equals(inve[i])
+							: item.isSimilar(inve[i]))) {
 				return i;
 			}
 		}
@@ -112,19 +114,22 @@ public class ItemManager {
 		return i - 1;
 	}
 
-	public static ItemStack getItem(Item item, User user, String... replacements) {
-		return getItem(item, user, replacements, new String[0]);
+	public static ItemStack getItem(Item item, User user,
+					Object... replacements) {
+		return getItem(item, user, replacements, new Object[0]);
 	}
 
-	public static ItemStack getItem(Item item, User user, String[] replacements, String... loreReplacements) {
+	public static ItemStack getItem(Item item, User user, Object[] replacements,
+					Object... loreReplacements) {
 		ItemBuilder builder = item.getBuilder().getUnsafe().setString("itemId", getItemId(item)).builder();
 		String name = getDisplayName(item, user, replacements);
 		builder.setDisplayName(name);
 		if (builder.getLores().size() != 0) {
 			builder.getLores().clear();
 			String last = null;
-			for (String lore : Message.getMessage(Message.ITEM_PREFIX + Message.LORE_PREFIX + item.name(),
-					user.getLanguage(), loreReplacements).split("\\%n")) {
+			for (String lore : Message.getMessage(Message.ITEM_PREFIX
+							+ Message.LORE_PREFIX
+							+ item.name(), user.getLanguage(), loreReplacements).split("\\%n")) {
 				if (last != null) {
 					lore = ChatColor.getLastColors(last) + lore;
 				}
@@ -132,7 +137,8 @@ public class ItemManager {
 				builder.addLore(last);
 			}
 		}
-		if (item.getPerk() != null && Main.getInstance().getLobby().isEnabled()) {
+		if (item.getPerk() != null
+						&& Main.getInstance().getLobby().isEnabled()) {
 			PerkType p = item.getPerk();
 			if (p.getCost() != 0) {
 				if (p.isCostPerBlock()) {
@@ -171,7 +177,7 @@ public class ItemManager {
 	}
 
 	public static String getItemId(Item item) {
-		return Message.ITEM_PREFIX + item.name();
+		return Message.ITEM_PREFIX + item.getKey();
 	}
 
 	public static String getMapId(ItemStack item) {
@@ -194,7 +200,8 @@ public class ItemManager {
 		return builder.getUnsafe().getString(key);
 	}
 
-	public static String getDisplayName(Item item, User user, String... replacements) {
+	public static String getDisplayName(Item item, User user,
+					Object... replacements) {
 		return Message.getMessage(getItemId(item), user.getLanguage(), replacements);
 	}
 }

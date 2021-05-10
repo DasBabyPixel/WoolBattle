@@ -9,16 +9,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import eu.darkcube.minigame.woolbattle.Main;
 import eu.darkcube.minigame.woolbattle.util.Arrays;
-import eu.darkcube.minigame.woolbattle.util.DontSerialize;
+import eu.darkcube.minigame.woolbattle.util.GsonSerializer.DontSerialize;
+import eu.darkcube.minigame.woolbattle.util.Serializable;
 
-public class TeamType implements Comparable<TeamType> {
+public class TeamType implements Comparable<TeamType>, Serializable {
 
 	private static final Collection<TeamType> TYPES = new HashSet<>();
 	public static TeamType SPECTATOR;
@@ -155,20 +153,6 @@ public class TeamType implements Comparable<TeamType> {
 	@Override
 	public String toString() {
 		return getDisplayNameKey();
-	}
-
-	public final String serialize() {
-		return new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
-			@Override
-			public boolean shouldSkipField(FieldAttributes var1) {
-				return var1.getAnnotation(DontSerialize.class) != null;
-			}
-
-			@Override
-			public boolean shouldSkipClass(Class<?> var1) {
-				return false;
-			}
-		}).create().toJson(this);
 	}
 
 	@Override

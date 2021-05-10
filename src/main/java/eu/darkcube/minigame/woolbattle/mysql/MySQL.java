@@ -15,16 +15,16 @@ import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import com.google.gson.Gson;
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 
 import eu.darkcube.minigame.woolbattle.Main;
-import eu.darkcube.minigame.woolbattle.user.User;
-import eu.darkcube.minigame.woolbattle.user.UserData;
-import eu.darkcube.minigame.woolbattle.util.WoolSubtractDirection;
 import eu.darkcube.minigame.woolbattle.user.DefaultUserData;
 import eu.darkcube.minigame.woolbattle.user.HeightDisplay;
+import eu.darkcube.minigame.woolbattle.user.User;
+import eu.darkcube.minigame.woolbattle.user.UserData;
+import eu.darkcube.minigame.woolbattle.util.GsonSerializer;
+import eu.darkcube.minigame.woolbattle.util.WoolSubtractDirection;
 
 public class MySQL {
 
@@ -42,17 +42,19 @@ public class MySQL {
 
 	static {
 		TABLES.add("CREATE TABLE IF NOT EXISTS woolbattle_userdata (uuid VARCHAR("
-				+ UUID.randomUUID().toString().length() + "), userdata TEXT, PRIMARY KEY(uuid))");
+						+ UUID.randomUUID().toString().length()
+						+ "), userdata TEXT, PRIMARY KEY(uuid))");
 	}
 
 	public static final UserData loadUserData(UUID uuid) {
 		Object o = getObject("woolbattle_userdata", "userdata", "uuid", uuid.toString());
-		DefaultUserData data =
-				new Gson().fromJson(o == null ? new DefaultUserData().toString() : o.toString(), DefaultUserData.class);
+		DefaultUserData data = GsonSerializer.gson.fromJson(o == null
+						? new DefaultUserData().toString()
+						: o.toString(), DefaultUserData.class);
 		if (data.getHeightDisplay() == null) {
 			data.setHeightDisplay(HeightDisplay.getDefault());
 		}
-		if(data.getWoolSubtractDirection() == null) {
+		if (data.getWoolSubtractDirection() == null) {
 			data.setWoolSubtractDirection(WoolSubtractDirection.getDefault());
 		}
 		return data;
@@ -76,7 +78,8 @@ public class MySQL {
 					b.append(", ").append("NULL");
 				}
 				b.append(')');
-				PreparedStatement s = mysql.con.prepareStatement("INSERT INTO " + table + " VALUES (" + b);
+				PreparedStatement s = mysql.con.prepareStatement("INSERT INTO "
+								+ table + " VALUES (" + b);
 				s.executeUpdate();
 				s.close();
 			} catch (SQLException ex) {
@@ -85,7 +88,8 @@ public class MySQL {
 		}
 	}
 
-	private static final Object getObject(String table, String columnName, String primaryKey, String key) {
+	private static final Object getObject(String table, String columnName,
+					String primaryKey, String key) {
 		try {
 			Result res = mysql.getResult("SELECT {} FROM {} WHERE {}='{}'", columnName, table, primaryKey, key);
 			if (!res.isEmpty()) {
@@ -98,7 +102,8 @@ public class MySQL {
 		return null;
 	}
 
-	private static final void setObject(String table, String columnName, String primaryKey, String key, Object object) {
+	private static final void setObject(String table, String columnName,
+					String primaryKey, String key, Object object) {
 		getObject(table, columnName, primaryKey, key);
 		mysql.update("UPDATE {} SET {}='{}' WHERE {}='{}'", table, columnName, object.toString(), primaryKey, key);
 	}
@@ -118,27 +123,28 @@ public class MySQL {
 	public final void connect() {
 		if (!isConnected()) {
 			try {
-				con = DriverManager.getConnection(
-						"jdbc:mysql://" + host + ":" + port + "/" + database + "?characterEncoding=utf8", username,
-						password);
+				con = DriverManager.getConnection("jdbc:mysql://" + host + ":"
+								+ port + "/" + database
+								+ "?characterEncoding=utf8", username, password);
 				TABLES.forEach(t -> this.update(t));
 				Main.getInstance().sendConsole("[MySQL] Connected!");
 			} catch (SQLException ex) {
 				if (ex instanceof CommunicationsException) {
 					Main.getInstance().sendConsole(ChatColor.RED
-							+ "Could not connect to database. Shutting down server. "
-							+ "\nPlease ensure your IP in the config is correct and the MySQL database is online!");
+									+ "Could not connect to database. Shutting down server. "
+									+ "\nPlease ensure your IP in the config is correct and the MySQL database is online!");
 					loadError();
 				} else if (ex instanceof MySQLSyntaxErrorException) {
 					Main.getInstance().sendConsole(ChatColor.RED
-							+ "Could not connect to database. Shutting down server. "
-							+ "\nPlease ensure your values in the config are correct, such like password, username.\n"
-							+ ex.getMessage());
+									+ "Could not connect to database. Shutting down server. "
+									+ "\nPlease ensure your values in the config are correct, such like password, username.\n"
+									+ ex.getMessage());
 					loadError();
 				} else if (ex.getMessage().startsWith("Access denied for user")) {
-					Main.getInstance()
-							.sendMessage(ChatColor.RED + "Could not connect to database. Shutting down server. "
-									+ "\nThe entered password is wrong!\n" + ex.getMessage());
+					Main.getInstance().sendMessage(ChatColor.RED
+									+ "Could not connect to database. Shutting down server. "
+									+ "\nThe entered password is wrong!\n"
+									+ ex.getMessage());
 					loadError();
 				} else {
 					handleException(ex);
@@ -166,7 +172,8 @@ public class MySQL {
 		}
 	}
 
-	public final Result getResult(final String query, final CharSequence... replace) {
+	public final Result getResult(final String query,
+					final CharSequence... replace) {
 		if (!isConnected()) {
 			disconnect();
 			connect();
@@ -213,7 +220,8 @@ public class MySQL {
 
 	public void loadError() {
 		try {
-			Main.getInstance().sendMessage(ChatColor.DARK_RED + "Stopping server!");
+			Main.getInstance().sendMessage(ChatColor.DARK_RED
+							+ "Stopping server!");
 			Thread.sleep(10000);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
@@ -240,7 +248,8 @@ public class MySQL {
 		return builder.toString();
 	}
 
-	private static final String format(String msg, final String... replacements) {
+	private static final String format(String msg,
+					final String... replacements) {
 		int i = 0;
 		for (int j = 0; j < replacements.length; j++) {
 			if (replacements[i].equals("true"))
@@ -257,7 +266,8 @@ public class MySQL {
 	private static final String[] getColumnNames(String table) {
 		List<String> res = new ArrayList<>();
 		try {
-			ResultSet r = ((MySQLResult) mysql.getResult("SELECT * FROM " + table)).raw();
+			ResultSet r = ((MySQLResult) mysql.getResult("SELECT * FROM "
+							+ table)).raw();
 			for (int i = 0; i < r.getMetaData().getColumnCount(); i++)
 				res.add(r.getMetaData().getColumnName(i + 1));
 		} catch (SQLException ex) {
@@ -275,15 +285,19 @@ public class MySQL {
 		return;
 	}
 
-	private final String getRow(ResultSet res, String... keys) throws SQLException {
+	private final String getRow(ResultSet res, String... keys)
+					throws SQLException {
 		StringBuilder builder = new StringBuilder().append("Entry[");
 		for (int i = 0; i < keys.length; i++) {
-			builder.append(res.getMetaData().getColumnName(i + 1)).append('=').append(res.getObject(keys[i]) + ", ");
+			builder.append(res.getMetaData().getColumnName(i
+							+ 1)).append('=').append(res.getObject(keys[i])
+											+ ", ");
 		}
 		return builder.substring(0, builder.length() - 2) + ']';
 	}
 
-	private final void appendRow(StringBuilder builder, ResultSet res, String... keys) throws SQLException {
+	private final void appendRow(StringBuilder builder, ResultSet res,
+					String... keys) throws SQLException {
 		builder.append(getRow(res, keys));
 	}
 }

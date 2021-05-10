@@ -56,7 +56,6 @@ import eu.darkcube.minigame.woolbattle.team.DefaultTeamManager;
 import eu.darkcube.minigame.woolbattle.team.Team;
 import eu.darkcube.minigame.woolbattle.team.TeamManager;
 import eu.darkcube.minigame.woolbattle.team.TeamType;
-import eu.darkcube.minigame.woolbattle.translation.Language;
 import eu.darkcube.minigame.woolbattle.translation.Message;
 import eu.darkcube.minigame.woolbattle.user.ConsoleUser;
 import eu.darkcube.minigame.woolbattle.user.DefaultUserWrapper;
@@ -68,7 +67,6 @@ import eu.darkcube.minigame.woolbattle.util.CustomEntityTracker;
 import eu.darkcube.minigame.woolbattle.util.DependencyManager;
 import eu.darkcube.minigame.woolbattle.util.DependencyManager.Dependency;
 import eu.darkcube.minigame.woolbattle.util.Item;
-import eu.darkcube.minigame.woolbattle.util.ItemManager;
 import eu.darkcube.minigame.woolbattle.util.ObjectiveTeam;
 import eu.darkcube.minigame.woolbattle.util.ScoreboardObjective;
 import eu.darkcube.minigame.woolbattle.util.convertingrule.ConvertingRuleChatColor;
@@ -82,6 +80,7 @@ import eu.darkcube.minigame.woolbattle.util.scoreboard.Scoreboard;
 import eu.darkcube.system.GameState;
 import eu.darkcube.system.Plugin;
 import eu.darkcube.system.commandapi.CommandAPI;
+import eu.darkcube.system.language.core.Language;
 import eu.darkcube.system.loader.PluginClassLoader;
 import eu.darkcube.system.loader.ReflectionClassLoader;
 import net.minecraft.server.v1_8_R3.ChunkProviderServer;
@@ -136,56 +135,82 @@ public class Main extends Plugin {
 		new DependencyManager(this).loadDependencies(Dependency.values());
 
 		// Load all messages
-		for (Language language : Language.values()) {
-			if (language.getBundle() != null) {
-				for (Message message : Message.values()) {
-					if (message.getMessage(language).startsWith(message.name())) {
-						sendConsole("§cCould not load message " + message.name() + " in language " + language.name());
-					}
-				}
-				for (Item item : Item.values()) {
-					String id = ItemManager.getItemId(item);
-					try {
-						language.getBundle().getString(id);
-					} catch (Exception ex) {
-						sendConsole("§cCould not load item name " + id + " in language " + language.name());
-					}
-					if (item.getBuilder().getLores().size() != 0) {
-						id = item.name();
-						try {
-							language.getBundle().getString(Message.ITEM_PREFIX + Message.LORE_PREFIX + id);
-						} catch (Exception ex) {
-							sendConsole("§cCould not load item lore " + Message.ITEM_PREFIX + Message.LORE_PREFIX + id
-									+ " in language " + language.name());
-						}
-					}
-				}
-				for (ScoreboardObjective obj : ScoreboardObjective.values()) {
-					try {
-						language.getBundle().getString(obj.getMessageKey());
-					} catch (Exception ex) {
-						sendConsole("§cCould not load scoreboard objective " + obj.getMessageKey() + " in language "
-								+ language.name());
-					}
-				}
-				for (ObjectiveTeam team : ObjectiveTeam.values()) {
-					try {
-						language.getBundle().getString(team.getMessagePrefix());
-					} catch (Exception ex) {
-						sendConsole("§cCould not load objective team prefix " + team.getMessagePrefix()
-								+ " in language " + language.name());
-					}
-					try {
-						language.getBundle().getString(team.getMessageSuffix());
-					} catch (Exception ex) {
-						sendConsole("§cCould not load objective team suffix " + team.getMessageSuffix()
-								+ " in language " + language.name());
-					}
-				}
-			} else {
-				sendConsole("§cLanguage bundle for language " + language.name() + " could not be found!");
-			}
+		try {
+			Language.GERMAN.registerLookup(getClassLoader(), "messages_de.properties", Message.KEY_MODFIIER);
+			Language.ENGLISH.registerLookup(getClassLoader(), "messages_en.properties", Message.KEY_MODFIIER);
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
+		List<String> languageEntries = new ArrayList<>();
+		languageEntries.addAll(Arrays.asList(Message.values()).stream().map(Message::getKey).collect(Collectors.toList()));
+		languageEntries.addAll(Arrays.asList(Item.values()).stream().map(i -> Message.ITEM_PREFIX
+						+ i.getKey()).collect(Collectors.toList()));
+		languageEntries.addAll(Arrays.asList(Item.values()).stream().filter(i -> i.getBuilder().getLores().size() > 0).map(i -> Message.ITEM_PREFIX
+						+ Message.LORE_PREFIX
+						+ i.getKey()).collect(Collectors.toList()));
+		Language.validateEntries(languageEntries.toArray(new String[languageEntries.size()]), s -> Message.KEY_PREFIX
+						+ s);
+
+//		for (Language language : Language.values()) {
+//			if (language.getBundle() != null) {
+//				for (Message message : Message.values()) {
+//					if (message.getMessage(language).startsWith(message.name())) {
+//						sendConsole("§cCould not load message " + message.name()
+//										+ " in language " + language.name());
+//					}
+//				}
+//				for (Item item : Item.values()) {
+//					String id = ItemManager.getItemId(item);
+//					try {
+//						language.getBundle().getString(id);
+//					} catch (Exception ex) {
+//						sendConsole("§cCould not load item name " + id
+//										+ " in language " + language.name());
+//					}
+//					if (item.getBuilder().getLores().size() != 0) {
+//						id = item.name();
+//						try {
+//							language.getBundle().getString(Message.ITEM_PREFIX
+//											+ Message.LORE_PREFIX + id);
+//						} catch (Exception ex) {
+//							sendConsole("§cCould not load item lore "
+//											+ Message.ITEM_PREFIX
+//											+ Message.LORE_PREFIX + id
+//											+ " in language "
+//											+ language.name());
+//						}
+//					}
+//				}
+//				for (ScoreboardObjective obj : ScoreboardObjective.values()) {
+//					try {
+//						language.getBundle().getString(obj.getMessageKey());
+//					} catch (Exception ex) {
+//						sendConsole("§cCould not load scoreboard objective "
+//										+ obj.getMessageKey() + " in language "
+//										+ language.name());
+//					}
+//				}
+//				for (ObjectiveTeam team : ObjectiveTeam.values()) {
+//					try {
+//						language.getBundle().getString(team.getMessagePrefix());
+//					} catch (Exception ex) {
+//						sendConsole("§cCould not load objective team prefix "
+//										+ team.getMessagePrefix()
+//										+ " in language " + language.name());
+//					}
+//					try {
+//						language.getBundle().getString(team.getMessageSuffix());
+//					} catch (Exception ex) {
+//						sendConsole("§cCould not load objective team suffix "
+//										+ team.getMessageSuffix()
+//										+ " in language " + language.name());
+//					}
+//				}
+//			} else {
+//				sendConsole("§cLanguage bundle for language " + language.name()
+//								+ " could not be found!");
+//			}
+//		}
 
 		// Create Array converting rules
 		Arrays.addConvertingRule(new ConvertingRuleLanguage());
@@ -319,7 +344,8 @@ public class Main extends Plugin {
 		registerListeners(listenerChat);
 		listenerLaunchable.start();
 
-		// Load worlds (At serverstart there are no worlds but if the plugin gets
+		// Load worlds (At serverstart there are no worlds but if the plugin
+		// gets
 		// reloaded there are)
 		loadWorlds();
 
@@ -407,14 +433,17 @@ public class Main extends Plugin {
 	public void setEpGlitch(User user) {
 		Scoreboard sb = new Scoreboard(user);
 		eu.darkcube.minigame.woolbattle.util.scoreboard.Team team = sb.getTeam(ObjectiveTeam.EP_GLITCH.getKey());
-		String suffix = epGlitch ? Message.EP_GLITCH_ON.getMessage(user) : Message.EP_GLITCH_OFF.getMessage(user);
+		String suffix = epGlitch ? Message.EP_GLITCH_ON.getMessage(user)
+						: Message.EP_GLITCH_OFF.getMessage(user);
 		team.setSuffix(suffix);
 	}
 
 	public void setMap(User user) {
 		Scoreboard sb = new Scoreboard(user);
 		eu.darkcube.minigame.woolbattle.util.scoreboard.Team team = sb.getTeam(ObjectiveTeam.MAP.getKey());
-		String suffix = baseMap == null ? (map == null ? "§cNo Maps" : map.getName()) : baseMap.getName();
+		String suffix = baseMap == null
+						? (map == null ? "§cNo Maps" : map.getName())
+						: baseMap.getName();
 		team.setSuffix(suffix);
 	}
 
@@ -427,7 +456,8 @@ public class Main extends Plugin {
 
 	public static final void initScoreboard(Scoreboard sb, User owner) {
 //		Spectator is not included in "Team"
-		Collection<Team> teams = new HashSet<>(Main.getInstance().getTeamManager().getTeams());
+		Collection<Team> teams = new HashSet<>(
+						Main.getInstance().getTeamManager().getTeams());
 		teams.add(Main.getInstance().getTeamManager().getSpectator());
 		for (Team t : teams) {
 			eu.darkcube.minigame.woolbattle.util.scoreboard.Team team = sb.createTeam(t.getType().getScoreboardTag());
@@ -485,15 +515,13 @@ public class Main extends Plugin {
 		return reloadConfig("config").getString(Config.COMMAND_PREFIX);
 	}
 
-	public Language getServerLanguage() {
-		return Language.ENGLISH;
-	}
-
 	@Override
-	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+	public ChunkGenerator getDefaultWorldGenerator(String worldName,
+					String id) {
 		return new ChunkGenerator() {
 			@Override
-			public ChunkData generateChunkData(World world, Random random, int x, int z, BiomeGrid biome) {
+			public ChunkData generateChunkData(World world, Random random,
+							int x, int z, BiomeGrid biome) {
 				return createChunkData(world);
 			}
 		};
@@ -532,16 +560,19 @@ public class Main extends Plugin {
 		w.setGameRuleValue("showDeathMessages", "false");
 		try {
 			// Setting all chunkgenerator fields for world
-			sendConsole("Preparing void world generation for world '" + world.getName() + "'");
+			sendConsole("Preparing void world generation for world '"
+							+ world.getName() + "'");
 			w.getHandle().generator = getDefaultWorldGenerator(world.getName(), world.getName());
 			Field field = net.minecraft.server.v1_8_R3.World.class.getDeclaredField("dataManager");
 			field.setAccessible(true);
 			IDataManager manager = (IDataManager) field.get(w.getHandle());
-			IChunkProvider gen = new CustomChunkGenerator(w.getHandle(), w.getHandle().getSeed(),
-					w.getHandle().generator) {
+			IChunkProvider gen = new CustomChunkGenerator(w.getHandle(),
+							w.getHandle().getSeed(), w.getHandle().generator) {
 
 			};
-			gen = new ChunkProviderServer(w.getHandle(), manager.createChunkLoader(w.getHandle().worldProvider), gen) {
+			gen = new ChunkProviderServer(w.getHandle(),
+							manager.createChunkLoader(w.getHandle().worldProvider),
+							gen) {
 			};
 			w.getHandle().chunkProviderServer = (ChunkProviderServer) gen;
 			field = net.minecraft.server.v1_8_R3.World.class.getDeclaredField("chunkProvider");
@@ -563,19 +594,24 @@ public class Main extends Plugin {
 
 	public final void loadWorld(String world) {
 		if (!new File(this.getServer().getWorldContainer(), world).exists()
-				&& !new File(this.getServer().getWorldContainer().getParent(), world).exists()) {
+						&& !new File(this.getServer().getWorldContainer().getParent(),
+										world).exists()) {
 			return;
 		}
-		if (Bukkit.getWorld(world) == null && !new File(Bukkit.getWorldContainer(), world).exists()) {
+		if (Bukkit.getWorld(world) == null
+						&& !new File(Bukkit.getWorldContainer(),
+										world).exists()) {
 			try {
-				WorldCreator creator = new WorldCreator(world).generator(getDefaultWorldGenerator(world, world));
+				WorldCreator creator = new WorldCreator(
+								world).generator(getDefaultWorldGenerator(world, world));
 				creator.createWorld();
 			} catch (NullPointerException ex) {
 			}
 		} else {
 			if (new File(Bukkit.getWorldContainer(), world).exists()) {
 				File serverfolder = new File(System.getProperty("user.dir"));
-				YamlConfiguration cfg = YamlConfiguration.loadConfiguration(new File(serverfolder, "bukkit.yml"));
+				YamlConfiguration cfg = YamlConfiguration.loadConfiguration(new File(
+								serverfolder, "bukkit.yml"));
 				cfg.set("worlds." + world + ".generator", "WoolBattle");
 				try {
 					cfg.save(new File(serverfolder, "bukkit.yml"));
@@ -592,18 +628,19 @@ public class Main extends Plugin {
 		return instance;
 	}
 
-	public final void sendMessage(Message msg, String... replacements) {
+	public final void sendMessage(Message msg, Object... replacements) {
 		sendMessage(msg, (u) -> replacements);
 	}
 
-	public final <T> void sendMessage(Message msg, Function<User, String[]> function) {
+	public final <T> void sendMessage(Message msg,
+					Function<User, Object[]> function) {
 		for (User user : getUserWrapper().getUsers()) {
-			String[] replacements = new String[0];
+			Object[] replacements = new Object[0];
 			replacements = Arrays.addAfter(replacements, function.apply(user));
 			user.getBukkitEntity().sendMessage(msg.getMessage(user, replacements));
 		}
 		User console = new ConsoleUser();
-		String[] replacements = new String[0];
+		Object[] replacements = new Object[0];
 		replacements = Arrays.addAfter(replacements, function.apply(console));
 		sendConsole(msg.getMessage(console.getLanguage(), replacements));
 	}

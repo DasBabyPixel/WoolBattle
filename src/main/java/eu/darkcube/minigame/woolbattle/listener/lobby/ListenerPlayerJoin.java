@@ -97,8 +97,7 @@ public class ListenerPlayerJoin extends Listener<PlayerJoinEvent> {
 			for (User t : Main.getInstance().getUserWrapper().getUsers()) {
 				t.getBukkitEntity().sendMessage(Message.PLAYER_JOINED.getMessage(t, user.getTeamPlayerName()));
 			}
-			Main.getInstance().sendConsole(
-					Message.PLAYER_JOINED.getMessage(Main.getInstance().getServerLanguage(), user.getTeamPlayerName()));
+			Main.getInstance().sendConsole(Message.PLAYER_JOINED.getServerMessage(user.getTeamPlayerName()));
 
 			e.setJoinMessage(null);
 		} else {

@@ -1,7 +1,7 @@
 package eu.darkcube.minigame.woolbattle.util.convertingrule;
 
-import eu.darkcube.minigame.woolbattle.translation.Language;
 import eu.darkcube.minigame.woolbattle.util.Arrays.ConvertingRule;
+import eu.darkcube.system.language.core.Language;
 
 public class ConvertingRuleLanguage extends ConvertingRule<Language> {
 

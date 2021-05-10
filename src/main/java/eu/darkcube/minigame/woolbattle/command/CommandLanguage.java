@@ -8,12 +8,12 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import eu.darkcube.minigame.woolbattle.Main;
 import eu.darkcube.minigame.woolbattle.mysql.MySQL;
-import eu.darkcube.minigame.woolbattle.translation.Language;
 import eu.darkcube.minigame.woolbattle.translation.Message;
 import eu.darkcube.minigame.woolbattle.user.User;
 import eu.darkcube.minigame.woolbattle.util.Arrays;
 import eu.darkcube.system.commandapi.Argument;
 import eu.darkcube.system.commandapi.Command;
+import eu.darkcube.system.language.core.Language;
 
 public class CommandLanguage extends Command {
 

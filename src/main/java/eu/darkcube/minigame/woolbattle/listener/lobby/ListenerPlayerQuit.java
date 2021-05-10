@@ -26,8 +26,7 @@ public class ListenerPlayerQuit extends Listener<PlayerQuitEvent> {
 		for (User t : Main.getInstance().getUserWrapper().getUsers()) {
 			t.getBukkitEntity().sendMessage(Message.PLAYER_LEFT.getMessage(t, user.getTeamPlayerName()));
 		}
-		Main.getInstance().sendConsole(
-				Message.PLAYER_LEFT.getMessage(Main.getInstance().getServerLanguage(), user.getTeamPlayerName()));
+		Main.getInstance().sendConsole(Message.PLAYER_LEFT.getServerMessage(user.getTeamPlayerName()));
 
 		Main.getInstance().getUserWrapper().getUsers().forEach(t -> Main.getInstance().setOnline(t));
 		e.setQuitMessage(null);

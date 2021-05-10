@@ -14,7 +14,8 @@ import eu.darkcube.system.commandapi.Command;
 public class CommandSetLifes extends Command {
 
 	public CommandSetLifes() {
-		super(Main.getInstance(), "setlifes", new Command[0], "Setzt die Rundenleben", CommandArgument.LIFES);
+		super(Main.getInstance(), "setlifes", new Command[0],
+						"Setzt die Rundenleben", CommandArgument.LIFES);
 	}
 
 	@Override
@@ -45,16 +46,14 @@ public class CommandSetLifes extends Command {
 				if (user != null)
 					sender.sendMessage(Message.ENTER_POSITIVE_NUMBER.getMessage(user));
 				else
-					sender.sendMessage(
-							Message.ENTER_POSITIVE_NUMBER.getMessage(Main.getInstance().getServerLanguage()));
+					sender.sendMessage(Message.ENTER_POSITIVE_NUMBER.getServerMessage());
 				return true;
 			}
 			Main.getInstance().baseLifes = lifes;
 			if (user != null) {
 				sender.sendMessage(Message.CHANGED_LIFES.getMessage(user, Integer.toString(lifes)));
 			} else {
-				sender.sendMessage(Message.CHANGED_LIFES.getMessage(Main.getInstance().getServerLanguage(),
-						Integer.toString(lifes)));
+				sender.sendMessage(Message.CHANGED_LIFES.getServerMessage(Integer.toString(lifes)));
 			}
 			return true;
 		}

@@ -8,8 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import eu.darkcube.minigame.woolbattle.perk.Perk;
 import eu.darkcube.minigame.woolbattle.perk.PerkNumber;
 import eu.darkcube.minigame.woolbattle.team.Team;
-import eu.darkcube.minigame.woolbattle.translation.Language;
 import eu.darkcube.minigame.woolbattle.util.InventoryId;
+import eu.darkcube.system.language.core.Language;
 import net.minecraft.server.v1_8_R3.Packet;
 
 public interface User {

@@ -3,8 +3,8 @@ package eu.darkcube.minigame.woolbattle.team;
 import java.util.Collection;
 import java.util.UUID;
 
-import eu.darkcube.minigame.woolbattle.translation.Language;
 import eu.darkcube.minigame.woolbattle.user.User;
+import eu.darkcube.system.language.core.Language;
 
 public interface TeamManager {
 

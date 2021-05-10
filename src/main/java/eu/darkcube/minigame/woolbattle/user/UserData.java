@@ -2,10 +2,11 @@ package eu.darkcube.minigame.woolbattle.user;
 
 import eu.darkcube.minigame.woolbattle.gadget.Gadget;
 import eu.darkcube.minigame.woolbattle.perk.PlayerPerks;
-import eu.darkcube.minigame.woolbattle.translation.Language;
+import eu.darkcube.minigame.woolbattle.util.Serializable;
 import eu.darkcube.minigame.woolbattle.util.WoolSubtractDirection;
+import eu.darkcube.system.language.core.Language;
 
-public interface UserData {
+public interface UserData extends Serializable {
 
 	Language getLanguage();
 

@@ -15,10 +15,10 @@ import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
 
 import eu.darkcube.minigame.woolbattle.Main;
-import eu.darkcube.minigame.woolbattle.translation.Language;
 import eu.darkcube.minigame.woolbattle.translation.Message;
 import eu.darkcube.minigame.woolbattle.user.User;
 import eu.darkcube.minigame.woolbattle.util.scoreboard.Scoreboard;
+import eu.darkcube.system.language.core.Language;
 
 public class DefaultTeamManager implements TeamManager {
 

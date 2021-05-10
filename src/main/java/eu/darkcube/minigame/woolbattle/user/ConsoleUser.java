@@ -5,15 +5,14 @@ import java.util.UUID;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.inventory.ItemStack;
 
-import eu.darkcube.minigame.woolbattle.Main;
 import eu.darkcube.minigame.woolbattle.gadget.Gadget;
 import eu.darkcube.minigame.woolbattle.perk.Perk;
 import eu.darkcube.minigame.woolbattle.perk.PerkNumber;
 import eu.darkcube.minigame.woolbattle.perk.PlayerPerks;
 import eu.darkcube.minigame.woolbattle.team.Team;
-import eu.darkcube.minigame.woolbattle.translation.Language;
 import eu.darkcube.minigame.woolbattle.util.InventoryId;
 import eu.darkcube.minigame.woolbattle.util.WoolSubtractDirection;
+import eu.darkcube.system.language.core.Language;
 import net.minecraft.server.v1_8_R3.Packet;
 
 public class ConsoleUser implements User {
@@ -132,7 +131,7 @@ public class ConsoleUser implements User {
 
 		@Override
 		public Language getLanguage() {
-			return Main.getInstance().getServerLanguage();
+			return Language.ENGLISH;
 		}
 
 		@Override

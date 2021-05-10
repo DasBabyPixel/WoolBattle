@@ -11,7 +11,8 @@ import eu.darkcube.system.commandapi.Command;
 public class CommandTimer extends Command {
 
 	public CommandTimer() {
-		super(Main.getInstance(), "timer", new Command[0], "Setze den Timer", CommandArgument.TIMER);
+		super(Main.getInstance(), "timer", new Command[0], "Setze den Timer",
+						CommandArgument.TIMER);
 	}
 
 	@Override
@@ -31,16 +32,15 @@ public class CommandTimer extends Command {
 				if (user != null)
 					sender.sendMessage(Message.ENTER_POSITIVE_NUMBER.getMessage(user));
 				else
-					sender.sendMessage(
-							Message.ENTER_POSITIVE_NUMBER.getMessage(Main.getInstance().getServerLanguage()));
+					sender.sendMessage(Message.ENTER_POSITIVE_NUMBER.getServerMessage());
 				return true;
 			}
-			Main.getInstance().getLobby().setOverrideTimer(timer <= 1 ? 2 : timer * 20);
+			Main.getInstance().getLobby().setOverrideTimer(timer <= 1 ? 2
+							: timer * 20);
 			if (user != null)
 				sender.sendMessage(Message.TIMER_CHANGED.getMessage(user, timer.toString()));
 			else
-				sender.sendMessage(
-						Message.TIMER_CHANGED.getMessage(Main.getInstance().getServerLanguage(), timer.toString()));
+				sender.sendMessage(Message.TIMER_CHANGED.getServerMessage(timer.toString()));
 			return true;
 		}
 		return false;

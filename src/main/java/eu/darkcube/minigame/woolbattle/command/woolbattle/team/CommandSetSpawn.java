@@ -20,8 +20,9 @@ import eu.darkcube.system.commandapi.SpacedCommand.SubCommand;
 public class CommandSetSpawn extends SubCommand {
 
 	public CommandSetSpawn() {
-		super(Main.getInstance(), "setSpawn", new Command[0], "Setzt den Spawn eines Teams", CommandArgument.MAP,
-				CommandArgument.ARGUMENT_MAKE_NICE);
+		super(Main.getInstance(), "setSpawn", new Command[0],
+						"Setzt den Spawn eines Teams", CommandArgument.MAP,
+						CommandArgument.ARGUMENT_MAKE_NICE);
 	}
 
 	@Override
@@ -44,14 +45,15 @@ public class CommandSetSpawn extends SubCommand {
 			Player p = (Player) sender;
 			Team team = Main.getInstance().getTeamManager().getTeam(TeamType.byDisplayNameKey(getSpaced()));
 			if (team == null || team.getType().isDeleted()) {
-				p.sendMessage("§cEs konnte kein Team mit dem Namen '" + getSpaced() + "' gefunden werden.");
-				p.sendMessage(
-						"§aNach dem erstellen eines Teams muss der Server neugestartet werden um Spawns setzen zu können!");
+				p.sendMessage("§cEs konnte kein Team mit dem Namen '"
+								+ getSpaced() + "' gefunden werden.");
+				p.sendMessage("§aNach dem erstellen eines Teams muss der Server neugestartet werden um Spawns setzen zu können!");
 				return true;
 			}
 			Map map = Main.getInstance().getMapManager().getMap(args[0]);
 			if (map == null) {
-				p.sendMessage("§cEs konnte keine Map mit dem Namen '" + args[0] + "'gefunden werden.");
+				p.sendMessage("§cEs konnte keine Map mit dem Namen '" + args[0]
+								+ "'gefunden werden.");
 				return true;
 			}
 			Location loc = p.getLocation();
@@ -62,11 +64,12 @@ public class CommandSetSpawn extends SubCommand {
 					p.teleport(loc);
 				}
 			}
-			p.sendMessage("§7Du hast den Spawn für die Map '" + map.getName() + "' neugesetzt!");
+			p.sendMessage("§7Du hast den Spawn für die Map '" + map.getName()
+							+ "' neugesetzt!");
 			map.setSpawn(team.getType().getDisplayNameKey(), loc);
 			return true;
 		}
-		sender.sendMessage(Message.NO_PLAYER.getMessage(Main.getInstance().getServerLanguage()));
+		sender.sendMessage(Message.NO_PLAYER.getServerMessage());
 		return true;
 	}
 }

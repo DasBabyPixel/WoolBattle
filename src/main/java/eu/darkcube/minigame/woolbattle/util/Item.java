@@ -117,6 +117,7 @@ public enum Item {
 	;
 
 	private final ItemBuilder builder;
+	private final String key = name();
 	private PerkType perk;
 
 	Item(ItemBuilder builder) {
@@ -128,7 +129,7 @@ public enum Item {
 	}
 
 	public String getDisplayName(User user) {
-		return getDisplayName(user, new String[0]);
+		return getDisplayName(user, new Object[0]);
 	}
 
 	public PerkType getPerk() {
@@ -142,8 +143,12 @@ public enum Item {
 	public String getItemId() {
 		return ItemManager.getItemId(this);
 	}
+	
+	public String getKey() {
+		return key;
+	}
 
-	public String getDisplayName(User user, String... replacements) {
+	public String getDisplayName(User user, Object... replacements) {
 		return ItemManager.getDisplayName(this, user, replacements);
 	}
 
@@ -151,11 +156,11 @@ public enum Item {
 		return ItemManager.getItem(this, user);
 	}
 
-	public ItemStack getItem(User user, String... replacements) {
+	public ItemStack getItem(User user, Object... replacements) {
 		return ItemManager.getItem(this, user, replacements);
 	}
 
-	public ItemStack getItem(User user, String[] replacements, String... loreReplacements) {
+	public ItemStack getItem(User user, Object[] replacements, Object... loreReplacements) {
 		return ItemManager.getItem(this, user, replacements, loreReplacements);
 	}
 }

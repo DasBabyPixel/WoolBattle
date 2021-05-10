@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.google.common.reflect.TypeToken;
 
 import eu.darkcube.minigame.woolbattle.Main;
+import eu.darkcube.minigame.woolbattle.util.GsonSerializer;
 
 public class DefaultMapManager implements MapManager {
 
@@ -18,7 +19,7 @@ public class DefaultMapManager implements MapManager {
 		if (maps == null) {
 			MAPS = new HashMap<>();
 		} else {
-			MAPS = DefaultMap.GSON.fromJson(maps, new TypeToken<java.util.Map<String, Map>>() {
+			MAPS = GsonSerializer.gson.fromJson(maps, new TypeToken<java.util.Map<String, Map>>() {
 				private static final long serialVersionUID = -4394658839136612803L;
 			}.getType());
 		}
@@ -36,7 +37,7 @@ public class DefaultMapManager implements MapManager {
 
 	@Override
 	public void saveMaps() {
-		String json = DefaultMap.GSON.toJson(MAPS);
+		String json = GsonSerializer.gson.toJson(MAPS);
 		YamlConfiguration cfg = Main.getInstance().getConfig("spawns");
 		cfg.set("maps", json);
 		Main.getInstance().saveConfig(cfg);
