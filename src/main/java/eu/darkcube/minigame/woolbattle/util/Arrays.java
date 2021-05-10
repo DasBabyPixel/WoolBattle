@@ -13,7 +13,7 @@ public class Arrays {
 	private static final Collection<ConvertingRule<?>> CONVERTING_RULES = new HashSet<>();
 
 	public static <T> T[] addBefore(T[] array, T t) {
-		List<T> list = new ArrayList<T>();
+		List<T> list = new ArrayList<>();
 		list.add(t);
 		list.addAll(asList(array));
 		return list.toArray(array);
@@ -21,14 +21,14 @@ public class Arrays {
 
 	@SafeVarargs
 	public static <T> T[] addAfter(T[] array, T... t) {
-		List<T> list = new ArrayList<T>(array.length + 1);
+		List<T> list = new ArrayList<>(array.length + 1);
 		list.addAll(Arrays.asList(array));
 		list.addAll(asList(t));
 		return list.toArray(array);
 	}
 
 	public static <T> T[] addAfter(T[] array, T t) {
-		List<T> list = new ArrayList<T>(array.length + 1);
+		List<T> list = new ArrayList<>(array.length + 1);
 		list.addAll(Arrays.asList(array));
 		list.add(t);
 		return list.toArray(array);

@@ -237,7 +237,7 @@ public class Main extends Plugin {
 		// Load teamtypes and teams
 		List<String> teams = getConfig("teams").getStringList("teams");
 		List<TeamType> types = teams.stream().map(json -> TeamType.deserialize(json)).collect(Collectors.toList());
-		AtomicReference<TeamType> spec = new AtomicReference<TeamType>();
+		AtomicReference<TeamType> spec = new AtomicReference<>();
 		new ArrayList<>(types).forEach(type -> {
 			if (type.getDisplayNameKey().equals("SPECTATOR")) {
 				types.remove(type);

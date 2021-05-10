@@ -57,7 +57,7 @@ public class ListenerItemVoting extends Listener<EventInteract> {
 						}
 						if (vote != null) {
 							Main.getInstance().getLobby().VOTES_EP_GLITCH.put(user,
-									new Vote<Boolean>(System.currentTimeMillis(), vote));
+									new Vote<>(System.currentTimeMillis(), vote));
 							Main.getInstance().getLobby().recalculateEpGlitch();
 							e.setCancelled(true);
 							if (vote) {
@@ -81,7 +81,7 @@ public class ListenerItemVoting extends Listener<EventInteract> {
 								p.sendMessage(Message.ALREADY_VOTED_FOR_MAP.getMessage(user, map.getName()));
 								break;
 							}
-						vote1 = new Vote<Map>(System.currentTimeMillis(), map);
+						vote1 = new Vote<>(System.currentTimeMillis(), map);
 						Main.getInstance().getLobby().VOTES_MAP.put(user, vote1);
 						Main.getInstance().getLobby().recalculateMap();
 						p.sendMessage(Message.VOTED_FOR_MAP.getMessage(user, map.getName()));
