@@ -41,8 +41,22 @@ public class DefaultTeamManager implements TeamManager {
 				s.getTeam(t.getType().getScoreboardTag()).removePlayer(user.getPlayerName());
 			s.getTeam(team.getType().getScoreboardTag()).addPlayer(user.getPlayerName());
 		}
+		if (!team.isSpectator()) {
+			for (Player o : Bukkit.getOnlinePlayers()) {
+				o.showPlayer(user.getBukkitEntity());
+			}
+		}
 		TEAM_BY_USER.put(user, team);
+		if (user.getActivePerk1() == null || user.getActivePerk2() == null
+						|| user.getPassivePerk() == null
+						|| user.getEnderPearl() == null) {
+			user.loadPerks();
+		}
 		Main.getInstance().getLobby().listenerItemTeams.reloadInventories();
+		if (Main.getInstance().getIngame().isEnabled()) {
+			Main.getInstance().getIngame().setPlayerItems(user);
+			Main.getInstance().getIngame().checkGameEnd();
+		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -51,7 +65,9 @@ public class DefaultTeamManager implements TeamManager {
 			spectator = null;
 		}
 		if (spectator == null) {
-			TeamType.SPECTATOR = new TeamType("SPECTATOR", 99, DyeColor.GRAY.getWoolData(), ChatColor.GRAY, false, -1);
+			TeamType.SPECTATOR = new TeamType("SPECTATOR", 99,
+							DyeColor.GRAY.getWoolData(), ChatColor.GRAY, false,
+							-1);
 			SPECTATOR = getOrCreateTeam(TeamType.SPECTATOR);
 			TEAMS.remove(SPECTATOR);
 		} else {
@@ -119,8 +135,7 @@ public class DefaultTeamManager implements TeamManager {
 
 	@Override
 	public Team getTeam(String displayNameKey) {
-		Set<Team> teams = getTeams().stream().filter(t -> t.getType().getDisplayNameKey().equals(displayNameKey))
-				.collect(Collectors.toSet());
+		Set<Team> teams = getTeams().stream().filter(t -> t.getType().getDisplayNameKey().equals(displayNameKey)).collect(Collectors.toSet());
 		for (Team team : teams)
 			return team;
 		return null;

@@ -2,6 +2,8 @@ package eu.darkcube.minigame.woolbattle.translation;
 
 import java.util.function.Function;
 
+import org.bukkit.ChatColor;
+
 import eu.darkcube.minigame.woolbattle.user.User;
 import eu.darkcube.system.language.core.Language;
 
@@ -71,14 +73,15 @@ public enum Message {
 	Message() {
 		this.key = this.name();
 	}
-	
+
 	public String getKey() {
 		return key;
 	}
 
 	public static final String getMessage(String messageKey, Language language,
 					Object... replacements) {
-		return language.getMessage(KEY_PREFIX + messageKey, replacements);
+		return ChatColor.translateAlternateColorCodes('&', language.getMessage(KEY_PREFIX
+						+ messageKey, replacements));
 //		try {
 //			String msg = language.getBundle().getString(messageKey);
 //			for (int i = 0; msg.contains("{}")

@@ -197,7 +197,7 @@ public class TeamType implements Comparable<TeamType>, Serializable {
 	}
 
 	public static final TeamType[] values() {
-		return TYPES.toArray(new TeamType[0]).clone();
+		return TYPES.toArray(new TeamType[0]);
 	}
 	
 	public static Collection<TeamType> getTypes() {

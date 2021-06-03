@@ -62,6 +62,30 @@ public class StatsLink {
 		}
 	}
 
+	public static void removeDeath(User user) {
+		if (isStats()) {
+			StatsAPI.getUser(user.getUniqueId()).removeWoolBattleDeath();
+		}
+	}
+
+	public static void removeWin(User user) {
+		if (isStats()) {
+			StatsAPI.getUser(user.getUniqueId()).removeWoolBattleWin();
+		}
+	}
+
+	public static void removeLoss(User user) {
+		if (isStats()) {
+			StatsAPI.getUser(user.getUniqueId()).removeWoolBattleLoss();
+		}
+	}
+
+	public static void removeKill(User user) {
+		if (isStats()) {
+			StatsAPI.getUser(user.getUniqueId()).removeWoolBattleKill();
+		}
+	}
+	
 	public static boolean isStats() {
 		return isStats && enabled;
 	}

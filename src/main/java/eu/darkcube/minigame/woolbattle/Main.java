@@ -30,8 +30,10 @@ import eu.darkcube.minigame.woolbattle.command.CommandDisableStats;
 import eu.darkcube.minigame.woolbattle.command.CommandFix;
 import eu.darkcube.minigame.woolbattle.command.CommandIsStats;
 import eu.darkcube.minigame.woolbattle.command.CommandLanguage;
+import eu.darkcube.minigame.woolbattle.command.CommandRevive;
 import eu.darkcube.minigame.woolbattle.command.CommandSetLifes;
 import eu.darkcube.minigame.woolbattle.command.CommandSetMap;
+import eu.darkcube.minigame.woolbattle.command.CommandSetTeam;
 import eu.darkcube.minigame.woolbattle.command.CommandSettings;
 import eu.darkcube.minigame.woolbattle.command.CommandTimer;
 import eu.darkcube.minigame.woolbattle.command.CommandTroll;
@@ -69,6 +71,7 @@ import eu.darkcube.minigame.woolbattle.util.DependencyManager.Dependency;
 import eu.darkcube.minigame.woolbattle.util.Item;
 import eu.darkcube.minigame.woolbattle.util.ObjectiveTeam;
 import eu.darkcube.minigame.woolbattle.util.ScoreboardObjective;
+import eu.darkcube.minigame.woolbattle.util.StatsLink;
 import eu.darkcube.minigame.woolbattle.util.convertingrule.ConvertingRuleChatColor;
 import eu.darkcube.minigame.woolbattle.util.convertingrule.ConvertingRuleDyeColor;
 import eu.darkcube.minigame.woolbattle.util.convertingrule.ConvertingRuleLanguage;
@@ -357,13 +360,17 @@ public class Main extends Plugin {
 		CommandAPI.enable(this, new CommandFix());
 		CommandAPI.enable(this, new CommandIsStats());
 		CommandAPI.enable(this, new CommandLanguage());
-		CommandAPI.enable(this, new CommandSetLifes());
+//		CommandAPI.enable(this, new CommandSetLifesDeprecated());
 		CommandAPI.enable(this, new CommandSetMap());
 		CommandAPI.enable(this, new CommandSettings());
 		CommandAPI.enable(this, new CommandTimer());
 		CommandAPI.enable(this, new CommandTroll());
 		CommandAPI.enable(this, new CommandVoteLifes());
 		CommandAPI.enable(this, new CommandWoolBattle());
+
+		eu.darkcube.system.commandapi.v3.CommandAPI.getInstance().register(new CommandSetTeam());
+		eu.darkcube.system.commandapi.v3.CommandAPI.getInstance().register(new CommandSetLifes());
+		eu.darkcube.system.commandapi.v3.CommandAPI.getInstance().register(new CommandRevive());
 
 		new BukkitRunnable() {
 			@Override
@@ -525,6 +532,12 @@ public class Main extends Plugin {
 				return createChunkData(world);
 			}
 		};
+	}
+
+	public boolean disableStats() {
+		boolean old = StatsLink.enabled;
+		StatsLink.enabled = false;
+		return old;
 	}
 
 	public final void loadWorlds() {

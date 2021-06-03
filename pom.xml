@@ -6,9 +6,51 @@
 	<artifactId>WoolBattle</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<build>
+		<plugins>
+			<!-- darkcube-root -->
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>2.0.0</version>
+
+				<executions>
+					<execution>
+						<id>copy-to-local-darkcube-cloudnet</id>
+						<phase>install</phase>
+						<goals>
+							<goal>upload-single</goal>
+						</goals>
+						<configuration>
+							<url>file:///C:/Users/Lorenz/Documents/DarkCube/CloudNet/local/services/woolbattle2x1-1/plugins</url>
+							<toFile>${project.artifactId}.jar</toFile>
+							<fromFile>${project.build.directory}/${project.build.finalName}.jar</fromFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-file</artifactId>
+				<version>${wagon.api.version}</version>
+			</extension>
+		</extensions>
+	</build>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>synergian-repo</id>
+			<url>https://raw.github.com/synergian/wagon-git/releases</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
+		<wagon.api.version>3.0.0</wagon.api.version>
 	</properties>
 
 	<dependencies>
@@ -16,6 +58,11 @@
 			<groupId>eu.darkcube.system</groupId>
 			<artifactId>Language-API-core</artifactId>
 			<version>0.0.2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.darkcube.system</groupId>
+			<artifactId>CommandAPI</artifactId>
+			<version>3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.darkcube.system</groupId>

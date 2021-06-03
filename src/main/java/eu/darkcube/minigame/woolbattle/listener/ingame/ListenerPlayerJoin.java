@@ -31,6 +31,7 @@ public class ListenerPlayerJoin extends Listener<PlayerJoinEvent> {
 		p.setSaturation(0);
 		e.setJoinMessage(null);
 		user.setTicksAfterLastHit(1200);
-		ingame.setSpectator(user);
+		Main.getInstance().getTeamManager().setTeam(user, Main.getInstance().getTeamManager().getSpectator());
+//		ingame.setSpectator(user);
 	}
 }

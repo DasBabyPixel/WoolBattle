@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import eu.darkcube.minigame.woolbattle.Main;
 import eu.darkcube.minigame.woolbattle.gadget.Gadget;
 import eu.darkcube.minigame.woolbattle.game.Ingame;
-import eu.darkcube.minigame.woolbattle.mysql.MySQL;
 import eu.darkcube.minigame.woolbattle.perk.Perk;
 import eu.darkcube.minigame.woolbattle.perk.PerkEnderPearl;
 import eu.darkcube.minigame.woolbattle.perk.PerkName;
@@ -72,7 +71,8 @@ class DefaultUser implements User {
 	public Perk getPerkByItemId(String itemId) {
 		for (Perk p : Arrays.asList(activePerk1, activePerk2, passivePerk)) {
 			if (p != null) {
-				if (p.getItem().getItemId().equals(itemId) || p.getCooldownItem().getItemId().equals(itemId)) {
+				if (p.getItem().getItemId().equals(itemId)
+								|| p.getCooldownItem().getItemId().equals(itemId)) {
 					return p;
 				}
 			}
@@ -174,8 +174,9 @@ class DefaultUser implements User {
 	}
 
 	private boolean hasPerk(PerkName perk) {
-		return getData().getPerks().getActivePerk1().equals(perk) || getData().getPerks().getActivePerk2().equals(perk)
-				|| getData().getPerks().getPassivePerk().equals(perk);
+		return getData().getPerks().getActivePerk1().equals(perk)
+						|| getData().getPerks().getActivePerk2().equals(perk)
+						|| getData().getPerks().getPassivePerk().equals(perk);
 	}
 
 	@Override
@@ -204,7 +205,8 @@ class DefaultUser implements User {
 	@Override
 	public void setSpawnProtectionTicks(int ticks) {
 		this.spawnProtectionTicks = ticks;
-		getBukkitEntity().setExp((float) getSpawnProtectionTicks() / (float) Ingame.SPAWNPROTECTION_TICKS);
+		getBukkitEntity().setExp((float) getSpawnProtectionTicks()
+						/ (float) Ingame.SPAWNPROTECTION_TICKS);
 	}
 
 	@Override
@@ -223,7 +225,7 @@ class DefaultUser implements User {
 	@Override
 	public void setLanguage(Language language) {
 		getData().setLanguage(language);
-		MySQL.saveUserData(this);
+		Language.setLanguage(uuid, language);
 	}
 
 	@Override
@@ -248,7 +250,8 @@ class DefaultUser implements User {
 
 	@Override
 	public String getTeamPlayerName() {
-		return ChatColor.getByChar(getTeam().getType().getNameColor()).toString() + getPlayerName();
+		return ChatColor.getByChar(getTeam().getType().getNameColor()).toString()
+						+ getPlayerName();
 	}
 
 	@Override
@@ -269,7 +272,8 @@ class DefaultUser implements User {
 	@Override
 	public void setTrollMode(boolean trollmode) {
 		this.trollmode = trollmode;
-		Main.getInstance().sendMessage("§aTrollmode " + (trollmode ? "§aAn" : "§cAus"), getBukkitEntity());
+		Main.getInstance().sendMessage("§aTrollmode "
+						+ (trollmode ? "§aAn" : "§cAus"), getBukkitEntity());
 	}
 
 	@Override
@@ -327,12 +331,14 @@ class DefaultUser implements User {
 
 	@Override
 	public double getKD() {
-		return getDeaths() != 0 ? (double) getKills() / (double) getDeaths() : getKills();
+		return getDeaths() != 0 ? (double) getKills() / (double) getDeaths()
+						: getKills();
 	}
 
 	@Override
 	public ItemStack getSingleWoolItem() {
-		return new ItemStack(Material.WOOL, 1, getTeam().getType().getWoolColor());
+		return new ItemStack(Material.WOOL, 1,
+						getTeam().getType().getWoolColor());
 	}
 
 	@Override
@@ -356,6 +362,12 @@ class DefaultUser implements User {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof User
+						&& getUniqueId().equals(((User) obj).getUniqueId());
+	}
+
+	@Override
 	public Perk getPerk(PerkNumber number) {
 		switch (number) {
 		case ACTIVE_1:
@@ -367,7 +379,7 @@ class DefaultUser implements User {
 		case ENDER_PEARL:
 			return getEnderPearl();
 		default:
-			break;
+		break;
 		}
 		return null;
 	}

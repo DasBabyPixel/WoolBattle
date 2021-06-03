@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import eu.darkcube.minigame.woolbattle.Main;
-import eu.darkcube.minigame.woolbattle.mysql.MySQL;
 import eu.darkcube.minigame.woolbattle.translation.Message;
 import eu.darkcube.minigame.woolbattle.user.User;
 import eu.darkcube.minigame.woolbattle.util.Arrays;
@@ -43,7 +42,6 @@ public class CommandLanguage extends Command {
 				user.setLanguage(language);
 				sender.sendMessage(Message.CHANGED_LANGUAGE.getMessage(user,
 						language.getLocale().getDisplayName(user.getLanguage().getLocale())));
-				MySQL.saveUserData(user);
 				if (Main.getInstance().getLobby().isEnabled())
 					Main.getInstance().getLobby().listenerPlayerJoin.handle(new PlayerJoinEvent(p, null));
 				if(Main.getInstance().getIngame().isEnabled())
