@@ -27,7 +27,8 @@ import eu.darkcube.minigame.woolbattle.util.scheduler.Scheduler;
 import net.minecraft.server.v1_8_R3.Blocks;
 import net.minecraft.server.v1_8_R3.EntityFallingBlock;
 
-public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityEvent> {
+public class ListenerEntityDamageByEntity
+				extends Listener<EntityDamageByEntityEvent> {
 
 	@Override
 	@EventHandler
@@ -51,7 +52,8 @@ public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityE
 						return;
 					}
 				}
-				if (target.getTeam().equals(user.getTeam()) && !user.isTrollMode()) {
+				if (target.getTeam().equals(user.getTeam())
+								&& !user.isTrollMode()) {
 					e.setCancelled(true);
 					return;
 				}
@@ -69,8 +71,9 @@ public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityE
 					}
 
 					if (!user.isTrollMode()) {
-						if (target.getUniqueId().equals(user.getUniqueId()) || user.getTeam().equals(target.getTeam())
-								|| user.getTeam().getType() == TeamType.SPECTATOR) {
+						if (target.getUniqueId().equals(user.getUniqueId())
+										|| user.getTeam().equals(target.getTeam())
+										|| user.getTeam().getType() == TeamType.SPECTATOR) {
 							e.setCancelled(true);
 							return;
 						}
@@ -87,18 +90,28 @@ public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityE
 					}
 
 					if (!user.isTrollMode()) {
-						if (target.getUniqueId().equals(user.getUniqueId()) || user.getTeam().equals(target.getTeam())
-								|| user.getTeam().getType() == TeamType.SPECTATOR) {
+						if (target.getUniqueId().equals(user.getUniqueId())
+										|| user.getTeam().equals(target.getTeam())
+										|| user.getTeam().getType() == TeamType.SPECTATOR) {
 							e.setCancelled(true);
 							return;
 						}
 					}
-					if (ball.hasMetadata("type") && ball.getMetadata("type").get(0).asString().equals("minigun")) {
+					if (ball.hasMetadata("type")
+									&& ball.getMetadata("type").get(0).asString().equals("minigun")) {
 						Main.getInstance().getIngame().attack(user, target);
 						e.setCancelled(true);
 						target.getBukkitEntity().damage(0);
-						target.getBukkitEntity().setVelocity(ball.getVelocity().setY(0).normalize()
-								.multiply(.47 + new Random().nextDouble() / 70 + 0.9 / 1.42).setY(.400023));
+//						target.getBukkitEntity().setVelocity(ball.getVelocity().setY(0).normalize()
+//								.multiply(.47 + new Random().nextDouble() / 70 + 0.9 / 1.42).setY(.400023));
+
+						target.getBukkitEntity().setVelocity(ball.getVelocity().setY(0).normalize().multiply(.47
+										+ new Random().nextDouble() / 70
+										+ 1.3).setY(.400023));
+//						target.getBukkitEntity().setVelocity(arrow.getVelocity().setY(0).normalize().multiply(.47
+//										+ new Random().nextDouble() / 70
+//										+ arrow.getKnockbackStrength()
+//														/ 1.42).setY(.400023));
 					}
 
 				}
@@ -115,8 +128,9 @@ public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityE
 					}
 
 					if (!user.isTrollMode()) {
-						if (target.getUniqueId().equals(user.getUniqueId()) || user.getTeam().equals(target.getTeam())
-								|| user.getTeam().getType() == TeamType.SPECTATOR) {
+						if (target.getUniqueId().equals(user.getUniqueId())
+										|| user.getTeam().equals(target.getTeam())
+										|| user.getTeam().getType() == TeamType.SPECTATOR) {
 							e.setCancelled(true);
 							return;
 						}
@@ -131,23 +145,26 @@ public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityE
 
 						Main.getInstance().getIngame().attack(user, target);
 						target.getBukkitEntity().damage(0);
-						user.getBukkitEntity().playSound(user.getBukkitEntity().getLocation(), Sound.SUCCESSFUL_HIT, 1,
-								0);
+						user.getBukkitEntity().playSound(user.getBukkitEntity().getLocation(), Sound.SUCCESSFUL_HIT, 1, 0);
 						target.getBukkitEntity().getWorld().playSound(target.getBukkitEntity().getLocation(), Sound.ARROW_HIT, 1, 1);
-						
+
 						new Scheduler() {
 							Location loc = target.getBukkitEntity().getLocation();
 
 							@SuppressWarnings("deprecation")
-							private Set<Block> execute(double width, double hstart, double height,
-									Predicate<Block> predicate) {
+							private Set<Block> execute(double width,
+											double hstart, double height,
+											Predicate<Block> predicate) {
 								width = Math.abs(width);
 								width--;
 								width /= 2;
 								Set<Block> res = new HashSet<>();
-								for (double xoff = -width; xoff < width + 1; xoff++) {
-									for (double yoff = hstart; yoff < hstart + height; yoff++) {
-										for (double zoff = -width; zoff < width + 1; zoff++) {
+								for (double xoff = -width; xoff < width
+												+ 1; xoff++) {
+									for (double yoff = hstart; yoff < hstart
+													+ height; yoff++) {
+										for (double zoff = -width; zoff < width
+														+ 1; zoff++) {
 											Location l = loc.clone().add(xoff, yoff, zoff);
 											Block b = l.getBlock();
 											if (b.getType() == Material.WOOL) {
@@ -157,17 +174,27 @@ public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityE
 												int dmg = Ingame.getBlockDamage(b);
 												if (dmg >= 2) {
 													Random r = new Random();
-													double x = r.nextBoolean() ? r.nextDouble() / 3
-															: -r.nextDouble() / 3, y = r.nextDouble() / 2,
-															z = r.nextBoolean() ? r.nextDouble() / 3
-																	: -r.nextDouble() / 3;
+													double x = r.nextBoolean()
+																	? r.nextDouble() / 3
+																	: -r.nextDouble()
+																					/ 3,
+																	y = r.nextDouble()
+																					/ 2,
+																	z = r.nextBoolean()
+																					? r.nextDouble() / 3
+																					: -r.nextDouble()
+																									/ 3;
 													EntityFallingBlock block = new EntityFallingBlock(
-															((CraftWorld) b.getWorld()).getHandle(),
-															b.getLocation().getBlockX() + .5,
-															b.getLocation().getBlockY() + .5,
-															b.getLocation().getBlockZ() + .5,
-															Blocks.WOOL.fromLegacyData(b.getData()));
-													Ingame.setBlockDamage(b, dmg + 1);
+																	((CraftWorld) b.getWorld()).getHandle(),
+																	b.getLocation().getBlockX()
+																					+ .5,
+																	b.getLocation().getBlockY()
+																					+ .5,
+																	b.getLocation().getBlockZ()
+																					+ .5,
+																	Blocks.WOOL.fromLegacyData(b.getData()));
+													Ingame.setBlockDamage(b, dmg
+																	+ 1);
 													block.ticksLived = 1;
 													block.dropItem = false;
 													block.motX = x;
@@ -176,7 +203,8 @@ public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityE
 													block.velocityChanged = true;
 													block.world.addEntity(block);
 												} else {
-													Ingame.setBlockDamage(b, dmg + 1);
+													Ingame.setBlockDamage(b, dmg
+																	+ 1);
 													res.add(b);
 												}
 											}
@@ -196,7 +224,8 @@ public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityE
 								Set<Block> s1 = execute(width, hstart, height, b -> true);
 								execute(capsuleWidth, hstart, height, b -> {
 									MetadataValue v = Ingame.getMetaData(b, "capsule");
-									boolean isCapsule = v != null && v.asBoolean();
+									boolean isCapsule = v != null
+													&& v.asBoolean();
 									return !s1.contains(b) && isCapsule;
 								});
 
@@ -204,10 +233,10 @@ public class ListenerEntityDamageByEntity extends Listener<EntityDamageByEntityE
 						}.runTaskLater(3);
 //						target.getBukkitEntity().playSound(target.getBukkitEntity().getLocation(), Sound.ARROW_HIT, 1,
 //								1);
-						target.getBukkitEntity()
-								.setVelocity(arrow.getVelocity().setY(0).normalize().multiply(
-										.47 + new Random().nextDouble() / 70 + arrow.getKnockbackStrength() / 1.42)
-										.setY(.400023));
+						target.getBukkitEntity().setVelocity(arrow.getVelocity().setY(0).normalize().multiply(.47
+										+ new Random().nextDouble() / 70
+										+ arrow.getKnockbackStrength()
+														/ 1.42).setY(.400023));
 						arrow.remove();
 					} else {
 						arrow.remove();

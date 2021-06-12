@@ -26,7 +26,7 @@ public enum PerkType implements Comparable<PerkType> {
 					PerkName.SAFETY_PLATFORM, false, 24),
 
 	WALL_GENERATOR(Item.PERK_WALL_GENERATOR, Item.PERK_WALL_GENERATOR_COOLDOWN,
-					10, PerkName.WALL_GENERATOR, false, 1, true),
+					9, PerkName.WALL_GENERATOR, false, 1, true),
 
 	GRANDPAS_CLOCK(Item.PERK_GRANDPAS_CLOCK, Item.PERK_GRANDPAS_CLOCK_COOLDOWN,
 					16, PerkName.GRANDPAS_CLOCK, false, 18),
@@ -38,7 +38,7 @@ public enum PerkType implements Comparable<PerkType> {
 					12),
 
 	MINIGUN(Item.PERK_MINIGUN, Item.PERK_MINIGUN_COOLDOWN, 10, PerkName.MINIGUN,
-					false, 2),
+					false, 1),
 
 	GRABBER(Item.PERK_GRABBER, Item.PERK_GRABBER_COOLDOWN, 7, PerkName.GRABBER,
 					false, 10),

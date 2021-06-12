@@ -80,14 +80,14 @@ public class ListenerMinigunInteract extends Listener<PlayerInteractEvent> {
 				@Override
 				public void run() {
 					ItemStack item = p.getItemInHand();
-					if (count >= 15 || item == null || !ItemManager.getItemId(item).equals(MINIGUN.getItemId())
+					if (count >= 20 || item == null || !ItemManager.getItemId(item).equals(MINIGUN.getItemId())
 							|| !p.getInventory().contains(Material.WOOL, PerkType.MINIGUN.getCost())
 							|| perk.getCooldown() > 0) {
 						this.cancel();
 						return;
 					}
 
-					p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10, 100, false, false));
+					p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10, 3, false, false));
 
 					count++;
 					Snowball s = p.getWorld().spawn(p.getEyeLocation(), Snowball.class);
@@ -118,7 +118,7 @@ public class ListenerMinigunInteract extends Listener<PlayerInteractEvent> {
 						}
 					}.runTaskTimer(20);
 				};
-			}.runTaskTimer(4);
+			}.runTaskTimer(3);
 		}
 	}
 }

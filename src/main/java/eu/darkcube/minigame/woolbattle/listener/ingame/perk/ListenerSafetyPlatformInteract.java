@@ -18,7 +18,8 @@ import eu.darkcube.minigame.woolbattle.util.Item;
 import eu.darkcube.minigame.woolbattle.util.ItemManager;
 import eu.darkcube.minigame.woolbattle.util.scheduler.Scheduler;
 
-public class ListenerSafetyPlatformInteract extends Listener<PlayerInteractEvent> {
+public class ListenerSafetyPlatformInteract
+				extends Listener<PlayerInteractEvent> {
 
 	public static final Item PLATFORM = PerkType.SAFETY_PLATFORM.getItem();
 	public static final Item PLATFORM_COOLDOWN = PerkType.SAFETY_PLATFORM.getCooldownItem();
@@ -26,7 +27,8 @@ public class ListenerSafetyPlatformInteract extends Listener<PlayerInteractEvent
 	@Override
 	@EventHandler
 	public void handle(PlayerInteractEvent e) {
-		if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) {
+		if (e.getAction() != Action.RIGHT_CLICK_AIR
+						&& e.getAction() != Action.RIGHT_CLICK_BLOCK) {
 			return;
 		}
 		Player p = e.getPlayer();
@@ -48,16 +50,20 @@ public class ListenerSafetyPlatformInteract extends Listener<PlayerInteractEvent
 		} else if (!PLATFORM.getItemId().equals(itemid)) {
 			return;
 		}
-		if (perk.getCooldown() > 0 || !p.getInventory().contains(Material.WOOL, PerkType.SAFETY_PLATFORM.getCost())) {
+		if (perk.getCooldown() > 0
+						|| !p.getInventory().contains(Material.WOOL, PerkType.SAFETY_PLATFORM.getCost())) {
 			deny(user, perk);
 			e.setCancelled(true);
 			return;
 		}
 		e.setCancelled(true);
+		boolean success = setBlocks(user);
+		if (!success) {
+			deny(user, perk);
+			return;
+		}
 
 		ItemManager.removeItems(user, p.getInventory(), user.getSingleWoolItem(), PerkType.SAFETY_PLATFORM.getCost());
-
-		setBlocks(user);
 
 		new Scheduler() {
 			int cd = perk.getMaxCooldown();
@@ -75,21 +81,81 @@ public class ListenerSafetyPlatformInteract extends Listener<PlayerInteractEvent
 
 	}
 
-	private void setBlocks(User p) {
+	private boolean setBlocks(User p) {
 
-		for (int x = -2; x < 3; x++) {
-			for (int z = -2; z < 3; z++) {
-				if (isCorner(x, z, 2))
+		final Location pLoc = p.getBukkitEntity().getLocation();
+		Location center = pLoc.getBlock().getLocation().add(0.5, 0.25, 0.5).setDirection(pLoc.getDirection());
+//		// Pos pos
+//		boolean pp = false;
+//		// Pos neg
+//		boolean pn = false;
+//		// Neg pos
+//		boolean np = false;
+//		// Neg neg
+//		boolean nn = false;
+//		if (center.getBlock().getType() == Material.AIR
+//						&& center.clone().add(0, 1, 0).getBlock().getType() == Material.AIR) {
+//			pp = true;
+//		}
+//		if (center.clone().add(0, 0, -1).getBlock().getType() == Material.AIR
+//						&& center.clone().add(0, 1, -1).getBlock().getType() == Material.AIR) {
+//			pn = true;
+//		}
+//		if (center.clone().add(-1, 0, 0).getBlock().getType() == Material.AIR
+//						&& center.clone().add(-1, 1, 0).getBlock().getType() == Material.AIR) {
+//			np = true;
+//		}
+//		if (center.clone().add(-1, 0, -1).getBlock().getType() == Material.AIR
+//						&& center.clone().add(-1, 1, -1).getBlock().getType() == Material.AIR) {
+//			nn = true;
+//		}
+		center.subtract(-0.5, 0, -0.5);
+//
+//		boolean blocked = !pp && !pn && !np && !nn;
+//		if (blocked) {
+//			return false;
+//		}
+//
+//		boolean freeSpace = pp && pn && np && nn;
+//		if (!freeSpace) {
+//			if (pp) {
+//				center = pLoc.getBlock().getLocation().add(0, 0.25, 0).setDirection(pLoc.getDirection());
+//			} else if (pn) {
+//				center = pLoc.getBlock().getLocation().add(0, 0.25, -1).setDirection(pLoc.getDirection());
+//			} else if (np) {
+//				center = pLoc.getBlock().getLocation().add(-1, 0.25, 0).setDirection(pLoc.getDirection());
+//			} else if (nn) {
+//				center = pLoc.getBlock().getLocation().add(-1, 0.25, -1).setDirection(pLoc.getDirection());
+//			}
+//		}
+//
+//		final double radius = freeSpace ? 2.5 : 2.0;
+		final double radius = 2.5;
+		for (double x = -radius; x <= radius; x++) {
+			for (double z = -radius; z <= radius; z++) {
+				if (isCorner(x, z, radius)) {
 					continue;
-				block(p.getBukkitEntity().getLocation().add(x, -1, z), p);
+				}
+				block(center.clone().add(x, -1, z), p);
 			}
 		}
-		p.getBukkitEntity().teleport(p.getBukkitEntity().getLocation().getBlock().getLocation().add(.5, .25, .5)
-				.setDirection(p.getBukkitEntity().getLocation().getDirection()));
+
+//		for (int x = -2; x < 3; x++) {
+//			for (int z = -2; z < 3; z++) {
+//				if (isCorner(x, z, 2))
+//					continue;
+//				block(p.getBukkitEntity().getLocation().add(x, -1, z), p);
+//			}
+//		}
+		p.getBukkitEntity().teleport(center);
+		return true;
+//		p.getBukkitEntity().teleport(p.getBukkitEntity().getLocation().getBlock().getLocation().add(.5, .25, .5)
+//				.setDirection(p.getBukkitEntity().getLocation().getDirection()));
 	}
 
-	private boolean isCorner(int x, int z, int r) {
-		return (x == -r && z == -r) || (x == r && z == -r) || (x == -r && z == r) || (x == r && z == r);
+	private boolean isCorner(double x, double z, double r) {
+		return (x == -r && z == -r) || (x == r && z == -r)
+						|| (x == -r && z == r) || (x == r && z == r);
 	}
 
 	@SuppressWarnings("deprecation")

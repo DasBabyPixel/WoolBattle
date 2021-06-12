@@ -6,13 +6,15 @@ import org.bukkit.command.CommandSender;
 
 import eu.darkcube.minigame.woolbattle.Main;
 import eu.darkcube.minigame.woolbattle.map.Map;
+import eu.darkcube.minigame.woolbattle.user.User;
 import eu.darkcube.minigame.woolbattle.util.Arrays;
 import eu.darkcube.system.commandapi.Command;
 
 public class CommandSetMap extends Command {
 
 	public CommandSetMap() {
-		super(Main.getInstance(), "setmap", new Command[0], "Setzt die Map", CommandArgument.MAP);
+		super(Main.getInstance(), "setmap", new Command[0], "Setzt die Map",
+						CommandArgument.MAP);
 	}
 
 	@Override
@@ -32,11 +34,18 @@ public class CommandSetMap extends Command {
 				sender.sendMessage("§cUnbekannte Map: " + args[0]);
 				return true;
 			}
-			Main.getInstance().baseMap = map;
 			sender.sendMessage("§aNeue Map: §5" + map.getName());
-			Main.getInstance().getUserWrapper().getUsers().forEach(p -> {
-				Main.getInstance().setMap(p);
-			});
+			if (Main.getInstance().getLobby().isEnabled()) {
+				Main.getInstance().baseMap = map;
+				Main.getInstance().getUserWrapper().getUsers().forEach(p -> {
+					Main.getInstance().setMap(p);
+				});
+			} else if (Main.getInstance().getIngame().isEnabled()) {
+				Main.getInstance().setMap(map);
+				for (User user : Main.getInstance().getUserWrapper().getUsers()) {
+					user.getBukkitEntity().teleport(user.getTeam().getSpawn());
+				}
+			}
 //			Integer lifes = null;
 //			try {
 //				lifes = Integer.parseInt(args[0]);

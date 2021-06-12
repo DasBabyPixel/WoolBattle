@@ -57,6 +57,7 @@ public class MySQL {
 		if (data.getWoolSubtractDirection() == null) {
 			data.setWoolSubtractDirection(WoolSubtractDirection.getDefault());
 		}
+		
 		return data;
 	}
 
