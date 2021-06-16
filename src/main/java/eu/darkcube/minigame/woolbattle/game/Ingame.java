@@ -119,6 +119,8 @@ public class Ingame implements Enableable {
 	public final ListenerDeathMove listenerDeathMove;
 	public final ListenerGrabberInteract listenerGrabberInteract;
 	public final ListenerBoosterInteract listenerBoosterInteract;
+	public final ListenerGrapplingHookFishing listenerGrapplingHookFishing;
+	public final ListenerRopeInteract listenerRopeInteract;
 	public final Scheduler schedulerResetWool;
 	public final Scheduler schedulerResetSpawnProtetion;
 	public final Scheduler schedulerParticles;
@@ -177,6 +179,8 @@ public class Ingame implements Enableable {
 		listenerDeathMove = new ListenerDeathMove();
 		listenerGrabberInteract = new ListenerGrabberInteract();
 		listenerBoosterInteract = new ListenerBoosterInteract();
+		listenerGrapplingHookFishing = new ListenerGrapplingHookFishing();
+		listenerRopeInteract = new ListenerRopeInteract();
 
 		schedulerParticles = new Scheduler() {
 			@Override
@@ -340,7 +344,7 @@ public class Ingame implements Enableable {
 				resetBlockDamage(b);
 			}
 
-		Main.registerListeners(listenerBlockBreak, listenerBlockPlace, listenerItemDrop, listenerItemPickup, listenerBlockCanBuild, listenerPlayerJoin, listenerPlayerQuit, listenerPlayerLogin, listenerEntityDamageByEntity, listenerDoubleJump, listenerEntityDamage, listenerChangeBlock, listenerProjectileHit, listenerProjectileLaunch, listenerInventoryClick, listenerInventoryDrag, listenerCapsule, listenerSwitcherLaunch, listenerSwitcherSwitch, listenerInteract, listenerGameModeChange, listenerPlayerMove, listenerEntitySpawn, listenerEnderpearlLaunchable, listenerSafetyPlatformInteract, listenerWoolBombInteract, listenerWoolBombLaunch, listenerTNTEntityDamageByEntity, listenerWoolBombHit, listenerWoolBombExplode, listenerLineBuilderInteract, listenerRonjasToiletInteract, listenerRonjasToiletHit, listenerRonjasToiletEntityDamageByEntity, listenerRonjasToiletLaunch, listenerBlinkInteract, listenerWallGeneratorInteract, listenerGrandpasClockInteract, listenerGhostInteract, listenerGhostEntityDamageByEntity, listenerMinigunInteract, listenerDeathMove, listenerGrabberInteract, listenerBoosterInteract);
+		Main.registerListeners(listenerBlockBreak, listenerBlockPlace, listenerItemDrop, listenerItemPickup, listenerBlockCanBuild, listenerPlayerJoin, listenerPlayerQuit, listenerPlayerLogin, listenerEntityDamageByEntity, listenerDoubleJump, listenerEntityDamage, listenerChangeBlock, listenerProjectileHit, listenerProjectileLaunch, listenerInventoryClick, listenerInventoryDrag, listenerCapsule, listenerSwitcherLaunch, listenerSwitcherSwitch, listenerInteract, listenerGameModeChange, listenerPlayerMove, listenerEntitySpawn, listenerEnderpearlLaunchable, listenerSafetyPlatformInteract, listenerWoolBombInteract, listenerWoolBombLaunch, listenerTNTEntityDamageByEntity, listenerWoolBombHit, listenerWoolBombExplode, listenerLineBuilderInteract, listenerRonjasToiletInteract, listenerRonjasToiletHit, listenerRonjasToiletEntityDamageByEntity, listenerRonjasToiletLaunch, listenerBlinkInteract, listenerWallGeneratorInteract, listenerGrandpasClockInteract, listenerGhostInteract, listenerGhostEntityDamageByEntity, listenerMinigunInteract, listenerDeathMove, listenerGrabberInteract, listenerBoosterInteract, listenerGrapplingHookFishing, listenerRopeInteract);
 //		Main.registerListeners(listenerEnderpearlLaunchable);
 
 		Main.getInstance().getUserWrapper().getUsers().forEach(u -> {
@@ -381,7 +385,7 @@ public class Ingame implements Enableable {
 		schedulerResetWool.cancel();
 		schedulerTick.cancel();
 		schedulerHeightDisplay.stop();
-		Main.unregisterListeners(listenerBlockBreak, listenerBlockPlace, listenerItemDrop, listenerItemPickup, listenerBlockCanBuild, listenerPlayerJoin, listenerPlayerQuit, listenerPlayerLogin, listenerEntityDamageByEntity, listenerDoubleJump, listenerEntityDamage, listenerChangeBlock, listenerProjectileHit, listenerProjectileLaunch, listenerInventoryClick, listenerInventoryDrag, listenerCapsule, listenerSwitcherLaunch, listenerSwitcherSwitch, listenerInteract, listenerGameModeChange, listenerPlayerMove, listenerEntitySpawn, listenerEnderpearlLaunchable, listenerSafetyPlatformInteract, listenerWoolBombInteract, listenerWoolBombLaunch, listenerTNTEntityDamageByEntity, listenerWoolBombHit, listenerWoolBombExplode, listenerLineBuilderInteract, listenerRonjasToiletInteract, listenerRonjasToiletHit, listenerRonjasToiletEntityDamageByEntity, listenerRonjasToiletLaunch, listenerBlinkInteract, listenerWallGeneratorInteract, listenerGrandpasClockInteract, listenerGhostInteract, listenerGhostEntityDamageByEntity, listenerMinigunInteract, listenerDeathMove, listenerGrabberInteract, listenerBoosterInteract);
+		Main.unregisterListeners(listenerBlockBreak, listenerBlockPlace, listenerItemDrop, listenerItemPickup, listenerBlockCanBuild, listenerPlayerJoin, listenerPlayerQuit, listenerPlayerLogin, listenerEntityDamageByEntity, listenerDoubleJump, listenerEntityDamage, listenerChangeBlock, listenerProjectileHit, listenerProjectileLaunch, listenerInventoryClick, listenerInventoryDrag, listenerCapsule, listenerSwitcherLaunch, listenerSwitcherSwitch, listenerInteract, listenerGameModeChange, listenerPlayerMove, listenerEntitySpawn, listenerEnderpearlLaunchable, listenerSafetyPlatformInteract, listenerWoolBombInteract, listenerWoolBombLaunch, listenerTNTEntityDamageByEntity, listenerWoolBombHit, listenerWoolBombExplode, listenerLineBuilderInteract, listenerRonjasToiletInteract, listenerRonjasToiletHit, listenerRonjasToiletEntityDamageByEntity, listenerRonjasToiletLaunch, listenerBlinkInteract, listenerWallGeneratorInteract, listenerGrandpasClockInteract, listenerGhostInteract, listenerGhostEntityDamageByEntity, listenerMinigunInteract, listenerDeathMove, listenerGrabberInteract, listenerBoosterInteract, listenerGrapplingHookFishing, listenerRopeInteract);
 		listenerEnderpearlLaunchable.disable();
 		for (Block b : placedBlocks) {
 			b.setType(Material.AIR);
@@ -500,7 +504,7 @@ public class Ingame implements Enableable {
 	}
 
 	public void checkGameEnd() {
-		if(startingIngame)
+		if (startingIngame)
 			return;
 		List<Team> teams = Main.getInstance().getTeamManager().getTeams().stream().filter(t -> t.getUsers().size() >= 1).collect(Collectors.toList());
 		if (teams.size() == 1) {

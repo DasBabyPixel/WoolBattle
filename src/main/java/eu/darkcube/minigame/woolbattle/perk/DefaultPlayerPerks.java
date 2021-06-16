@@ -18,7 +18,7 @@ public class DefaultPlayerPerks implements PlayerPerks {
 	public DefaultPlayerPerks() {
 		active1 = PerkType.CAPSULE.getPerkName();
 		active2 = PerkType.SWITCHER.getPerkName();
-		passive = PerkType.DOUBLE_WOOL.getPerkName();
+		passive = PerkType.EXTRA_WOOL.getPerkName();
 		slotActive1 = Slot.Hotbar.SLOT_3;
 		slotActive2 = Slot.Hotbar.SLOT_4;
 		slotPassive = Slot.Hotbar.SLOT_9;

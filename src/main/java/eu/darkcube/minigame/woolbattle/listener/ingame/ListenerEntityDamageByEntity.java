@@ -107,7 +107,7 @@ public class ListenerEntityDamageByEntity
 
 						target.getBukkitEntity().setVelocity(ball.getVelocity().setY(0).normalize().multiply(.47
 										+ new Random().nextDouble() / 70
-										+ 1.3).setY(.400023));
+										+ 1.1).setY(.400023));
 //						target.getBukkitEntity().setVelocity(arrow.getVelocity().setY(0).normalize().multiply(.47
 //										+ new Random().nextDouble() / 70
 //										+ arrow.getKnockbackStrength()

@@ -16,8 +16,10 @@ public enum Item {
 
 	LOBBY_PERKS(item(BOW).glow().addLore()),
 
-	LOBBY_VOTING(item(PAPER).addLore()), LOBBY_VOTING_MAPS(item(PAPER).addLore()),
-	LOBBY_VOTING_EP_GLITCH(item(ENDER_PEARL).addLore()), LOBBY_VOTING_LIFES(item(NAME_TAG).addLore()),
+	LOBBY_VOTING(item(PAPER).addLore()),
+	LOBBY_VOTING_MAPS(item(PAPER).addLore()),
+	LOBBY_VOTING_EP_GLITCH(item(ENDER_PEARL).addLore()),
+	LOBBY_VOTING_LIFES(item(NAME_TAG).addLore()),
 
 	GENERAL_VOTING_FOR(item(INK_SACK).setDurability(2).addLore()),
 	GENERAL_VOTING_AGAINST(item(INK_SACK).setDurability(1).addLore()),
@@ -26,26 +28,34 @@ public enum Item {
 	SETTINGS_WOOL_DIRECTION(item(WOOL).addLore()),
 	SETTINGS_HEIGHT_DISPLAY(item(CARPET).addLore()),
 	SETTINGS_HEIGHT_DISPLAY_COLOR(item(WOOL).setDurability(2).addLore()),
-	SETTINGS_WOOL_DIRECTION_LEFT_TO_RIGHT(item(WOOL).setDurability(5).addLore()),
-	SETTINGS_WOOL_DIRECTION_RIGHT_TO_LEFT(item(WOOL).setDurability(14).addLore()),
+	SETTINGS_WOOL_DIRECTION_LEFT_TO_RIGHT(
+					item(WOOL).setDurability(5).addLore()),
+	SETTINGS_WOOL_DIRECTION_RIGHT_TO_LEFT(
+					item(WOOL).setDurability(14).addLore()),
 
 	LOBBY_GADGET(item(ENDER_CHEST).glow().addLore()),
 
-	LOBBY_PERKS_1(item(CHEST).addLore()), LOBBY_PERKS_2(item(CHEST).addLore()),
+	LOBBY_PERKS_1(item(CHEST).addLore()),
+	LOBBY_PERKS_2(item(CHEST).addLore()),
 	LOBBY_PERKS_3(item(ENDER_CHEST).addLore()),
 
 	PERK_CAPSULE(item(STAINED_GLASS).setDurability(14).addLore()),
 	PERK_CAPSULE_COOLDOWN(item(STAINED_GLASS).addLore()),
 
-	PERK_SWITCHER(item(SNOW_BALL).addLore()), PERK_SWITCHER_COOLDOWN(item(SNOW_BALL).addLore()),
+	PERK_SWITCHER(item(SNOW_BALL).addLore()),
+	PERK_SWITCHER_COOLDOWN(item(SNOW_BALL).addLore()),
 
-	PERK_LINE_BUILDER(item(STICK).addLore()), PERK_LINE_BUILDER_COOLDOWN(item(STICK).addLore()),
+	PERK_LINE_BUILDER(item(STICK).addLore()),
+	PERK_LINE_BUILDER_COOLDOWN(item(STICK).addLore()),
 
-	PERK_WOOL_BOMB(item(TNT).addLore()), PERK_WOOL_BOMB_COOLDOWN(item(TNT).addLore()),
+	PERK_WOOL_BOMB(item(TNT).addLore()),
+	PERK_WOOL_BOMB_COOLDOWN(item(TNT).addLore()),
 
-	PERK_DOUBLE_WOOL(item(SUGAR_CANE).addLore()),
+	PERK_EXTRA_WOOL(item(CHEST).addLore()),
 
-	PERK_BACKPACK(item(CHEST).addLore()),
+//	PERK_DOUBLE_WOOL(item(SUGAR_CANE).addLore()),
+
+//	PERK_BACKPACK(item(CHEST).addLore()),
 
 	PERK_ROCKETJUMP(item(DIAMOND_BOOTS).addLore()),
 
@@ -53,7 +63,8 @@ public enum Item {
 
 	PERK_ARROW_RAIN_COOLDOWN(item(DISPENSER).addLore()),
 
-	PERK_RONJAS_TOILET_SPLASH(item(POTION).addLore()), PERK_RONJAS_TOILET_SPLASH_COOLDOWN(item(GLASS_BOTTLE).addLore()),
+	PERK_RONJAS_TOILET_SPLASH(item(POTION).addLore()),
+	PERK_RONJAS_TOILET_SPLASH_COOLDOWN(item(GLASS_BOTTLE).addLore()),
 
 	PERK_BLINK_COOLDOWN(item(ENDER_PEARL).addLore()),
 
@@ -94,25 +105,37 @@ public enum Item {
 	PERK_TNT_ARROW(item(TNT).addLore()),
 
 	PERK_TNT_ARROW_COOLDOWN(item(TNT).addLore()),
+	
+	PERK_GRAPPLING_HOOK(item(FISHING_ROD).setUnbreakable(true).addFlag(ItemFlag.HIDE_UNBREAKABLE).addLore()),
+	
+	PERK_GRAPPLING_HOOK_COOLDOWN(item(STICK).addLore()),
+	
+	PERK_ROPE(item(VINE).addLore()),
 
-	DEFAULT_BOW(item(BOW).addEnchant(Enchantment.ARROW_INFINITE, 1).addEnchant(Enchantment.ARROW_KNOCKBACK, 2)
-			.addEnchant(Enchantment.KNOCKBACK, 5).addLore().addFlag(ItemFlag.HIDE_UNBREAKABLE).setUnbreakable(true)),
-	DEFAULT_SHEARS(item(SHEARS).addEnchant(Enchantment.KNOCKBACK, 5).addEnchant(Enchantment.DIG_SPEED, 5)
-			.setUnbreakable(true).addFlag(ItemFlag.HIDE_UNBREAKABLE).addLore()),
-	DEFAULT_PEARL(item(ENDER_PEARL).glow().addLore()), DEFAULT_ARROW(item(ARROW).addLore()),
+	PERK_ROPE_COOLDOWN(item(VINE).addLore()),
+
+	DEFAULT_BOW(item(BOW).addEnchant(Enchantment.ARROW_INFINITE, 1).addEnchant(Enchantment.ARROW_KNOCKBACK, 2).addEnchant(Enchantment.KNOCKBACK, 5).addLore().addFlag(ItemFlag.HIDE_UNBREAKABLE).setUnbreakable(true)),
+	DEFAULT_SHEARS(item(SHEARS).addEnchant(Enchantment.KNOCKBACK, 5).addEnchant(Enchantment.DIG_SPEED, 5).setUnbreakable(true).addFlag(ItemFlag.HIDE_UNBREAKABLE).addLore()),
+	DEFAULT_PEARL(item(ENDER_PEARL).glow().addLore()),
+	DEFAULT_ARROW(item(ARROW).addLore()),
 	DEFAULT_PEARL_COOLDOWN(item(FIREWORK_CHARGE).addLore()),
 
-	ARMOR_LEATHER_BOOTS(item(LEATHER_BOOTS).setUnbreakable(true).addFlag(ItemFlag.HIDE_UNBREAKABLE)),
-	ARMOR_LEATHER_LEGGINGS(item(LEATHER_LEGGINGS).setUnbreakable(true).addFlag(ItemFlag.HIDE_UNBREAKABLE)),
-	ARMOR_LEATHER_CHESTPLATE(item(LEATHER_CHESTPLATE).setUnbreakable(true).addFlag(ItemFlag.HIDE_UNBREAKABLE)),
-	ARMOR_LEATHER_HELMET(item(LEATHER_HELMET).setUnbreakable(true).addFlag(ItemFlag.HIDE_UNBREAKABLE)),
+	ARMOR_LEATHER_BOOTS(
+					item(LEATHER_BOOTS).setUnbreakable(true).addFlag(ItemFlag.HIDE_UNBREAKABLE)),
+	ARMOR_LEATHER_LEGGINGS(
+					item(LEATHER_LEGGINGS).setUnbreakable(true).addFlag(ItemFlag.HIDE_UNBREAKABLE)),
+	ARMOR_LEATHER_CHESTPLATE(
+					item(LEATHER_CHESTPLATE).setUnbreakable(true).addFlag(ItemFlag.HIDE_UNBREAKABLE)),
+	ARMOR_LEATHER_HELMET(
+					item(LEATHER_HELMET).setUnbreakable(true).addFlag(ItemFlag.HIDE_UNBREAKABLE)),
 
 	TELEPORT_COMPASS(item(COMPASS).glow().addLore()),
 
-	LOBBY_PARTICLES_ON(item(BLAZE_ROD).addLore()), LOBBY_PARTICLES_OFF(item(BLAZE_ROD).addLore()),
+	LOBBY_PARTICLES_ON(item(BLAZE_ROD).addLore()),
+	LOBBY_PARTICLES_OFF(item(BLAZE_ROD).addLore()),
 
 	HEIGHT_DISPLAY_ON(item(STAINED_CLAY).setDurability(5).addLore()),
-	HEIGHT_DISPLAY_OFF(item(STAINED_CLAY).setDurability(14).addLore()),
+	HEIGHT_DISPLAY_OFF(item(STAINED_CLAY).setDurability(14).addLore()),  
 
 	;
 
@@ -143,7 +166,7 @@ public enum Item {
 	public String getItemId() {
 		return ItemManager.getItemId(this);
 	}
-	
+
 	public String getKey() {
 		return key;
 	}
@@ -160,7 +183,8 @@ public enum Item {
 		return ItemManager.getItem(this, user, replacements);
 	}
 
-	public ItemStack getItem(User user, Object[] replacements, Object... loreReplacements) {
+	public ItemStack getItem(User user, Object[] replacements,
+					Object... loreReplacements) {
 		return ItemManager.getItem(this, user, replacements, loreReplacements);
 	}
 }

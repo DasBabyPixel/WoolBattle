@@ -19,6 +19,8 @@ import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 
 import eu.darkcube.minigame.woolbattle.Main;
+import eu.darkcube.minigame.woolbattle.perk.DefaultPlayerPerks;
+import eu.darkcube.minigame.woolbattle.perk.PlayerPerks;
 import eu.darkcube.minigame.woolbattle.user.DefaultUserData;
 import eu.darkcube.minigame.woolbattle.user.HeightDisplay;
 import eu.darkcube.minigame.woolbattle.user.User;
@@ -57,7 +59,17 @@ public class MySQL {
 		if (data.getWoolSubtractDirection() == null) {
 			data.setWoolSubtractDirection(WoolSubtractDirection.getDefault());
 		}
-		
+		PlayerPerks perks = data.getPerks();
+		if (perks.getActivePerk1().toType() == null) {
+			perks.setActivePerk1(new DefaultPlayerPerks().getActivePerk1());
+		}
+		if (perks.getActivePerk2().toType() == null) {
+			perks.setActivePerk2(new DefaultPlayerPerks().getActivePerk2());
+		}
+		if (perks.getPassivePerk().toType() == null) {
+			perks.setPassivePerk(new DefaultPlayerPerks().getPassivePerk());
+		}
+		saveUserData(uuid, data);
 		return data;
 	}
 

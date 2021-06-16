@@ -46,7 +46,7 @@ public class ListenerProjectileLaunch extends Listener<ProjectileLaunchEvent> {
 						new ItemStack(Material.WOOL, 1, user.getTeam().getType().getWoolColor()), 1);
 				arrow.setVelocity(arrow.getVelocity());
 				if (user.getPassivePerk().getPerkName().equals(PerkName.FAST_ARROW)) {
-					Vector vec = arrow.getVelocity().multiply(1.6);
+					Vector vec = arrow.getVelocity().multiply(1.7);
 
 					double[] ds = new double[] {
 							vec.getX(), vec.getY(), vec.getZ()
@@ -70,7 +70,7 @@ public class ListenerProjectileLaunch extends Listener<ProjectileLaunchEvent> {
 					arrow.setVelocity(vec);
 				}
 				if (user.getPassivePerk().getPerkName().equals(PerkType.ARROW_RAIN.getPerkName())) {
-					int arrowCount = 4;
+					int arrowCount = 6;
 					arrowCount = (arrowCount / 2) * 2;
 
 					if (user.getPassivePerk().getCooldown() > 0) {
@@ -99,8 +99,8 @@ public class ListenerProjectileLaunch extends Listener<ProjectileLaunchEvent> {
 
 					user.getPassivePerk().setCooldown(user.getPassivePerk().getMaxCooldown() + arrowCount);
 
-					shootArrows(user, 25F / arrowCount, arrowCount / 2, arrow);
-					shootArrows(user, -25F / arrowCount, arrowCount / 2, arrow);
+					shootArrows(user, 20F / arrowCount, arrowCount / 2, arrow);
+					shootArrows(user, -20F / arrowCount, arrowCount / 2, arrow);
 
 //					for (int i = 0; i < 4; i++) {
 //						p.launchProjectile(Arrow.class);

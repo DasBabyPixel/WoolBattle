@@ -191,7 +191,7 @@ class DefaultUser implements User {
 
 	@Override
 	public int getMaxWoolSize() {
-		if (hasPerk(PerkName.BACKPACK)) {
+		if (hasPerk(PerkName.EXTRA_WOOL)) {
 			return 64 * 6;
 		}
 		return 64 * 3;
@@ -211,7 +211,7 @@ class DefaultUser implements User {
 
 	@Override
 	public int getWoolBreakAmount() {
-		if (hasPerk(PerkName.DOUBLE_WOOL)) {
+		if (hasPerk(PerkName.EXTRA_WOOL)) {
 			return 4;
 		}
 		return 2;
