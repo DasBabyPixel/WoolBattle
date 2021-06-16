@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import eu.darkcube.minigame.woolbattle.Main;
 import eu.darkcube.minigame.woolbattle.game.Ingame;
@@ -65,11 +66,21 @@ public class ListenerRopeInteract extends Listener<PlayerInteractEvent> {
 							Material.WOOL, 1,
 							user.getTeam().getType().getWoolColor()), PerkType.ROPE.getCost());
 
-			Location loc = p.getLocation().add(p.getLocation().getDirection().setY(0).normalize()).add(0, 1, 0);
+			Vector vec = p.getLocation().getDirection().setY(0).normalize();
+			double ax = Math.abs(vec.getX());
+			double az = Math.abs(vec.getZ());
+			if (ax > az) {
+				vec.setZ(0);
+				vec.normalize();
+			} else {
+				vec.setX(0);
+				vec.normalize();
+			}
+			Location loc = p.getLocation().add(vec).add(0, 1, 0);
 
 			for (int i = 0; i < 10; i++) {
 				loc = loc.subtract(0, 1, 0);
-				setBlock(loc);
+				setBlock(loc, user);
 			}
 
 			p.teleport(p.getLocation().getBlock().getLocation().add(.5, .25, .5).setDirection(p.getLocation().getDirection()));
@@ -90,9 +101,11 @@ public class ListenerRopeInteract extends Listener<PlayerInteractEvent> {
 		}
 	}
 
-	private void setBlock(Location block) {
+	@SuppressWarnings("deprecation")
+	private void setBlock(Location block, User user) {
 		if (block.getBlock().getType() == Material.AIR) {
 			block.getBlock().setType(Material.WOOL);
+			block.getBlock().setData(user.getTeam().getType().getWoolColor());
 			Main.getInstance().getIngame().placedBlocks.add(block.getBlock());
 		}
 	}
