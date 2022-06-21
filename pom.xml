@@ -2,23 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>WoolBattleReloaded</groupId>
-	<artifactId>WoolBattleReloaded</artifactId>
+	<groupId>eu.darkcube.system</groupId>
+	<artifactId>WoolBattle</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
-	<build>
-		<finalName>WoolBattle</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.3.1</version>
-				<configuration>
-					<outputDirectory>C:\Users\Java-Lorenz\Desktop\Server1.12.2\plugins</outputDirectory>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 	
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -29,12 +15,12 @@
 		<dependency>
 			<groupId>eu.darkcube.system</groupId>
 			<artifactId>StatsAPI</artifactId>
-			<version>stats</version>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.darkcube.system</groupId>
 			<artifactId>DarkCubeSystem</artifactId>
-			<version>1.0</version>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
